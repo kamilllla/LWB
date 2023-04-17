@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/education"
+        android:title="@string/education"
+        android:orderInCategory="1"
+        android:icon="@drawable/graduation_cap"
+        />
+    <item
+        android:id="@+id/chat"
+        android:title="@string/chat"
+        android:orderInCategory="2"
+        android:icon="@drawable/comment"
+
+        />
+
+</menu>

@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "5492909703",
+    "firebase_url": "https://lwbf-d3376-default-rtdb.europe-west1.firebasedatabase.app",
+    "project_id": "lwbf-d3376",
+    "storage_bucket": "lwbf-d3376.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:5492909703:android:27b8ca7c7b8f544c2a7a22",
+        "android_client_info": {
+          "package_name": "com.example.lwb"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "5492909703-04lm157priqmq5875bprcskcme04h0e1.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAI3H7mb3HQB7vHWDiYgiAlhYTURgPSjWg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "5492909703-04lm157priqmq5875bprcskcme04h0e1.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

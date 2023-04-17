@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="DesignSurface">
+    <option name="filePathToZoomLevelMap">
+      <map>
+        <entry key="app/src/main/res/drawable-v24/ic_baseline_arrow_forward_24.xml" value="0.226" />
+        <entry key="app/src/main/res/drawable-v24/ic_baseline_search_24.xml" value="0.226" />
+        <entry key="app/src/main/res/drawable/background_message.xml" value="0.106" />
+        <entry key="app/src/main/res/drawable/background_of_viewpagers.xml" value="0.1505218505859375" />
+        <entry key="app/src/main/res/drawable/background_sent_message.xml" value="0.106" />
+        <entry key="app/src/main/res/drawable/background_view.xml" value="0.172" />
+        <entry key="app/src/main/res/drawable/gradient.xml" value="0.2245" />
+        <entry key="app/src/main/res/drawable/ic_launcher_background.xml" value="0.1555" />
+        <entry key="app/src/main/res/drawable/shape_of_bottom.xml" value="0.1855" />
+        <entry key="app/src/main/res/font/rubik.xml" value="0.15833333333333333" />
+        <entry key="app/src/main/res/layout-normal/activity_enter2.xml" value="0.16802052159042324" />
+        <entry key="app/src/main/res/layout-normal/fragment_authorization.xml" value="0.3079301532946136" />
+        <entry key="app/src/main/res/layout-small/activity_enter2.xml" value="0.1723684210526316" />
+        <entry key="app/src/main/res/layout-small/actvity_enter2.xml" value="0.16802052159042324" />
+        <entry key="app/src/main/res/layout/activity_chat.xml" value="0.18592071533203125" />
+        <entry key="app/src/main/res/layout/activity_enter2.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/activity_main.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/activity_main_for_employee.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/activity_test.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/activity_vplayer.xml" value="0.28177795410156253" />
+        <entry key="app/src/main/res/layout/child_activity.xml" value="0.2953125" />
+        <entry key="app/src/main/res/layout/content_chat.xml" value="0.18725951261222745" />
+        <entry key="app/src/main/res/layout/fragment_account.xml" value="0.26349945068359376" />
+        <entry key="app/src/main/res/layout/fragment_authorization.xml" value="0.6431686401367188" />
+        <entry key="app/src/main/res/layout/fragment_authorization_employee.xml" value="0.20478837109876016" />
+        <entry key="app/src/main/res/layout/fragment_education.xml" value="0.14583333333333334" />
+        <entry key="app/src/main/res/layout/fragment_first.xml" value="0.2543822146216332" />
+        <entry key="app/src/main/res/layout/fragment_question.xml" value="0.2424112868747328" />
+        <entry key="app/src/main/res/layout/fragment_registration.xml" value="0.36932678222656246" />
+        <entry key="app/src/main/res/layout/fragment_users_list.xml" value="0.1834117144078666" />
+        <entry key="app/src/main/res/layout/header_layout.xml" value="0.2953125" />
+        <entry key="app/src/main/res/layout/item_user_list.xml" value="0.28031768798828127" />
+        <entry key="app/src/main/res/layout/list_item.xml" value="0.1453612654980761" />
+        <entry key="app/src/main/res/layout/list_users.xml" value="0.18041704442429737" />
+        <entry key="app/src/main/res/layout/message_item.xml" value="0.436700439453125" />
+        <entry key="app/src/main/res/layout/message_item_sent.xml" value="0.4173980712890625" />
+        <entry key="app/src/main/res/menu/bottom_navigation_menu.xml" value="0.17708333333333334" />
+        <entry key="app/src/main/res/menu/menu_for_employees.xml" value="0.1" />
+      </map>
+    </option>
+  </component>
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="Android Studio default JDK" project-jdk-type="JavaSDK">
+    <output url="file://$PROJECT_DIR$/build/classes" />
+  </component>
+  <component name="ProjectType">
+    <option name="id" value="Android" />
+  </component>
+  <component name="VisualizationToolProject">
+    <option name="state">
+      <ProjectState>
+        <option name="scale" value="0.1" />
+      </ProjectState>
+    </option>
+  </component>
+</project>

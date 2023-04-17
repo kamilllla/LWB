@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white_bezh"
+    tools:context=".activities.EnterActivity2"
+    android:orientation="vertical">
+
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/outlinedTextField2"
+        app:boxStrokeColor="@color/greyLight"
+        android:hint="Логин"
+        app:shapeAppearanceOverlay="@style/ShapeOfTextField"
+        android:layout_width="325dp"
+        android:layout_gravity="center"
+        android:layout_height="wrap_content"
+        style="@style/TextField"
+        >
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/textInputEmail"
+            style="@style/EditText"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/outlinedTextField3"
+        style="@style/TextField"
+        app:shapeAppearanceOverlay="@style/ShapeOfTextField"
+        android:layout_gravity="center"
+        android:layout_width="325dp"
+        android:layout_height="wrap_content"
+        android:hint="Пароль"
+        app:hintTextColor="@color/black"
+        app:endIconMode="password_toggle"
+        >
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/textInputPassword"
+            android:inputType="textPassword"
+            style="@style/EditText" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/buttonIn"
+        style="@style/Button"
+        android:layout_gravity="center"
+        android:layout_marginTop="30dp"
+        android:text="@string/sign_in"
+        />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/buttonUp"
+        style="@style/ButtonOutline"
+        android:layout_gravity="center"
+        android:layout_marginTop="10dp"
+        android:text="@string/sign_up" />
+    <TextView
+        android:id="@+id/textAuthEmployee"
+        style="@style/regularText"
+        android:textSize="20sp"
+        android:text="@string/sign_up_emp"
+        />
+
+
+
+</LinearLayout>
