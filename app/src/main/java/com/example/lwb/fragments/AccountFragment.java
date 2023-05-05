@@ -43,6 +43,8 @@ public class AccountFragment extends Fragment {
     TextInputEditText passwordText;
     TextInputEditText numberText;
     FirebaseFirestore db=FirebaseFirestore.getInstance();
+
+
     public static AccountFragment newInstance(String login) {
         AccountFragment profile=new AccountFragment();
         Bundle bundle=new Bundle();

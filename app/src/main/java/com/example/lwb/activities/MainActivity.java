@@ -3,21 +3,26 @@ package com.example.lwb.activities;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 
+import com.example.lwb.Event;
 import com.example.lwb.fragments.AccountFragment;
 import com.example.lwb.Constants;
+import com.example.lwb.fragments.CalendarFragment;
 import com.example.lwb.fragments.EducationFragment;
 import com.example.lwb.R;
 import com.example.lwb.User;
+import com.example.lwb.fragments.EventListFragment;
+import com.example.lwb.fragments.RegistrationDialogFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements CalendarFragment.CalendarFragmentInterface, EventListFragment.EventListFragmentInterface{
     User receiver=new User();
     private NavigationBarView.OnItemSelectedListener mOnNavigationItemSelectedListener= new NavigationBarView.OnItemSelectedListener() {
         @Override
@@ -55,6 +60,10 @@ public class MainActivity extends AppCompatActivity {
 //                            }
 //                        }
 //                    });
+                case R.id.event:
+                    CalendarFragment fragment=new CalendarFragment();
+                    loadFragment(fragment);
+                    return true;
 
 
             }
@@ -72,10 +81,26 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        BottomNavigationView bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottom);
+        BottomNavigationView bottomNavigationView = findViewById(R.id.bottom);
         bottomNavigationView.setOnItemSelectedListener(mOnNavigationItemSelectedListener);
         bottomNavigationView.setSelectedItemId(R.id.account);
 
     }
 
+    @Override
+    public void toEventListFragment(String date) {
+        EventListFragment fragment =EventListFragment.newInstance(date);
+        FragmentManager fragmentManager=getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction=fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.containers, fragment).addToBackStack(null);
+        fragmentTransaction.commit();
+
+    }
+
+    @Override
+    public void showDialogFragment(Event event) {
+        RegistrationDialogFragment dialog = RegistrationDialogFragment.newInstance(event);
+        dialog.show(getSupportFragmentManager(), "custom");
+
+    }
 }

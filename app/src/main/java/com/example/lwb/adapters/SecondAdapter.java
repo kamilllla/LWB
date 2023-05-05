@@ -49,7 +49,6 @@ public class SecondAdapter extends RecyclerView.Adapter<SecondAdapter.ViewHolder
         //View элементы, значения для которых будут установлены для отображения в каждой строке
         public TextView nameTextView;
         public ImageView photoImg;
-        public TextView markTextview;
         public TextView genreTextview;
 
         //конструктор
@@ -58,7 +57,7 @@ public class SecondAdapter extends RecyclerView.Adapter<SecondAdapter.ViewHolder
             super(itemView);
             nameTextView = (TextView) itemView.findViewById(R.id.textViewName);
             photoImg = (ImageView) itemView.findViewById(R.id.child_image);
-            genreTextview = (TextView) itemView.findViewById(R.id.textViewGenre);
+
         }
     }
     //----------------------------------------------------------------------------------------
@@ -96,7 +95,6 @@ public class SecondAdapter extends RecyclerView.Adapter<SecondAdapter.ViewHolder
                 Log.i("err", "error");
             }
         });
-        holder.genreTextview.setText(guid.getGenre());
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

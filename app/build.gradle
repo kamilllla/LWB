@@ -36,7 +36,11 @@ dependencies {
 
     implementation 'androidx.appcompat:appcompat:1.5.1'
     implementation 'com.google.firebase:firebase-firestore:24.4.0'
-
+    implementation files('libs/activation.jar')
+    implementation files('libs/additionnal.jar')
+    implementation files('libs/mail.jar')
+    implementation 'com.github.tizisdeepan:eventscalendar:1.6.1'
+    implementation 'com.ms-square:expandableTextView:0.1.4'
     implementation 'com.squareup.picasso:picasso:2.71828'
     implementation files('libs/YouTubeAndroidPlayerApi.jar')
     implementation 'com.google.android.material:material:1.7.0'

@@ -6,76 +6,98 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context=".activities.TestActivity"
-    android:gravity="center"
-    android:background="@drawable/gradient">
+    android:background="@drawable/back_lines">
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/button3"
+        style="@style/Widget.Material3.Button.OutlinedButton.Icon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end"
+        app:strokeColor="@color/greyLight"
+        app:icon="@drawable/cancel"
+        android:paddingLeft="30dp"
+        app:iconSize="25dp"
+        app:iconGravity="start"
+        app:iconTint="@color/greyLight"
+        android:layout_marginTop="15dp"
+        android:layout_marginEnd="15dp"
+        />
+
 
     <TextView
         android:id="@+id/textView"
+        style="@style/header"
+        android:textSize="40sp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textColor="@color/black"
-        android:textSize="38sp"
-        android:layout_gravity="center"
-        android:layout_margin="10dp"
-         />
+        android:text="GVcvsdvksd jhdvbsjdhvj hsbej"
+        android:layout_marginTop="15dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        />
 
-    <TextView
-        android:id="@+id/question"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_margin="100dp"
-        android:textColor="@color/black"
-        android:textSize="25sp"
-        android:text="TextView"
-        tools:layout_editor_absoluteX="190dp"
-        tools:layout_editor_absoluteY="284dp" />
-
-    <androidx.appcompat.widget.LinearLayoutCompat
+    <com.google.android.material.card.MaterialCardView
+        style="@style/Widget.MaterialComponents.CardView"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:gravity="center_horizontal"
+        android:layout_height="450dp"
+        android:layout_margin="25dp"
+        app:strokeColor="@color/greyLight"
+        app:strokeWidth="1dp"
+        app:cardCornerRadius="10dp"
+        android:backgroundTint="#B3FFFFFF"
         >
 
-    <Button
-        android:id="@+id/button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Да"
-        android:fontFamily="@font/buyanregular"
-        android:textSize="25sp"
-        android:layout_margin="10dp"
-        android:layout_weight="1"
-        android:layout_gravity="center"
-       />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:orientation="vertical"
 
-    <Button
-        android:id="@+id/button2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Нет"
-        android:fontFamily="@font/buyanregular"
-        android:layout_margin="10dp"
-        android:textSize="25sp"
-        android:layout_weight="1"
-         />
-    </androidx.appcompat.widget.LinearLayoutCompat
-       >
-<LinearLayout
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="horizontal"
-    android:gravity="center_horizontal">
+            >
+
+            <TextView
+                android:id="@+id/question"
+                style="@style/text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="25dp"
+                android:layout_marginEnd="10dp"
+                android:layout_marginStart="10dp"
+                android:text="TextViewsgdfhjekgsfiyegfuyegfkyuwgeyfytdfja`gdsf`ays"
+                android:textAlignment="center"
+                android:textSize="30sp"
+                />
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/button"
+                    style="@style/ButtonOutlineDynamic"
+                    android:layout_width="120dp"
+                    android:layout_height="150dp"
+                    android:layout_gravity="center"
+                    android:layout_margin="5dp"
+                    android:text="@string/yes"
+                    android:textSize="25sp" />
+
+                <Button
+                    android:id="@+id/button2"
+                    style="@style/ButtonOutlineDynamic"
+                    android:layout_width="120dp"
+                    android:layout_height="150dp"
+                    android:layout_margin="5dp"
+                    android:text="@string/no"
+                    android:textSize="25sp" />
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+        </LinearLayout>
+
+    </com.google.android.material.card.MaterialCardView>
 
 
-    <Button
-        android:id="@+id/button3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Завершить тестирование"
-        android:layout_margin="10dp"
-        tools:layout_editor_absoluteX="171dp"
-        tools:layout_editor_absoluteY="474dp" />
-</LinearLayout>
 </androidx.appcompat.widget.LinearLayoutCompat>

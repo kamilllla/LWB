@@ -13,11 +13,10 @@
     <color name="grey">#3f3f3f</color>
     <color name="greyLight">#545454</color>
     <color name="pinkLight">#bc8f8f</color>
-    <color name="greenLight">#7ba05b</color>
-    <color name="green">#00a86b</color>
     <color name="pink">#722f37</color>
     <color name="white">#FFFFFF</color>
     <color name="white_light">#FFFFFF</color>
     <color name="white_bezh">#FBFBFB</color>
     <color name="new_green">#D7FF82</color>
+    <color name="dark_green">#53662B</color>
 </resources>

@@ -5,13 +5,13 @@
         android:id="@+id/education"
         android:title="@string/education"
         android:orderInCategory="1"
-        android:icon="@drawable/graduation_cap"
+        android:icon="@drawable/chat"
         />
     <item
         android:id="@+id/chat"
         android:title="@string/chat"
         android:orderInCategory="2"
-        android:icon="@drawable/comment"
+        android:icon="@drawable/cap"
 
         />
 

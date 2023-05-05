@@ -97,6 +97,7 @@ public class TestActivity extends AppCompatActivity {
                                                                                                                                                                                 }
                                                                                                                                                                                 buttonFirst.setEnabled(false);
                                                                                                                                                                                 buttonSecond.setEnabled(false);
+                                                                                                                                                                                buttonSecond.setVisibility(View.INVISIBLE);
                                                                                                                                                                                 viewQuestion.setText("Ваш текущий результат - "+ currentResult+"\nВаш максимальный результат - "+ maxResult);
 
                                                                                                                                                                             }
@@ -143,6 +144,7 @@ public class TestActivity extends AppCompatActivity {
                                                                                                                                                                             Log.i("RES", "hfjfgjhgjhg");
                                                                                                                                                                             buttonFirst.setEnabled(false);
                                                                                                                                                                             buttonSecond.setEnabled(false);
+                                                                                                                                                                            buttonSecond.setVisibility(View.INVISIBLE);
                                                                                                                                                                             viewQuestion.setText("Ваш текущий результат - "+ currentResult+"\nВаш максимальный результат - "+ maxResult);
 
 
@@ -164,6 +166,7 @@ public class TestActivity extends AppCompatActivity {
         };
 
         buttonFirst.setOnClickListener(onClickListener);
+
         buttonSecond.setOnClickListener(onClickListener);
 
 

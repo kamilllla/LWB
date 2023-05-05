@@ -16,7 +16,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="110dp"
         android:layout_marginEnd="8dp"
-        android:hint="Логин">
+        android:hint="@string/login">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/textInputLogin"
@@ -34,7 +34,7 @@
         android:layout_width="325dp"
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
-        android:hint="Пароль"
+        android:hint="@string/password"
         app:endIconMode="password_toggle"
         >
 
@@ -49,7 +49,7 @@
         android:layout_width="325dp"
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
-        android:hint="Повторите пароль"
+        android:hint="@string/repassword"
         app:endIconMode="password_toggle"
         >
 
@@ -64,7 +64,7 @@
         android:layout_gravity="center"
         android:layout_width="325dp"
         android:layout_height="wrap_content"
-        android:hint="Номер телефона"
+        android:hint="@string/phone"
 
         >
 
@@ -86,10 +86,11 @@
     <com.google.android.material.button.MaterialButton
         android:id="@+id/buttonCancel"
         style="@style/ButtonOutline"
+        android:layout_width="300dp"
+        android:layout_height="58dp"
         android:layout_gravity="center"
-        app:strokeColor="@color/white"
         android:layout_marginTop="5dp"
-        android:text="Отменить" />
+        android:text="@string/cancel" />
 
 
 

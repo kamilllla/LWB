@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="20dp"
+    app:cardCornerRadius="10dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".fragments.RegistrationDialogFragment"
+    android:background="@color/white_bezh">
+
+<LinearLayout
+android:layout_width="match_parent"
+android:layout_height="match_parent"
+android:orientation="vertical">
+
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="horizontal"
+    >
+
+    <TextView
+        style="@style/text"
+        android:layout_width="210dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:text="@string/title_for_registration_dialog_fragment"
+        android:textSize="20sp" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/buttonCancel"
+        style="@style/Widget.Material3.Button.OutlinedButton.Icon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end"
+        app:strokeColor="@color/greyLight"
+        app:icon="@drawable/cancel"
+        android:paddingStart="30dp"
+        app:iconSize="25dp"
+        app:iconGravity="start"
+        app:iconTint="@color/greyLight"
+        android:layout_marginTop="15dp"
+
+        />
+
+
+
+</LinearLayout>
+
+<com.google.android.material.textfield.TextInputLayout
+    android:id="@+id/outlinedLogin"
+    style="@style/TextField"
+    android:layout_width="300dp"
+    android:layout_gravity="center"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="10dp"
+    android:hint="@string/name">
+
+    <com.google.android.material.textfield.TextInputEditText
+        android:id="@+id/textInputName"
+        android:layout_height="match_parent"
+        android:layout_width="match_parent"
+        style="@style/EditText"/>
+</com.google.android.material.textfield.TextInputLayout>
+
+
+
+<com.google.android.material.textfield.TextInputLayout
+    android:id="@+id/outlinedSurname"
+    style="@style/TextField"
+    android:layout_gravity="center"
+    android:layout_width="300dp"
+    android:layout_height="wrap_content"
+    android:hint="@string/surname"
+    >
+
+    <com.google.android.material.textfield.TextInputEditText
+        android:id="@+id/textInputSurname"
+        style="@style/EditText" />
+</com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+    android:id="@+id/outlinedPatronomyc"
+    style="@style/TextField"
+    android:layout_gravity="center"
+    android:layout_width="300dp"
+    android:layout_height="wrap_content"
+
+    android:hint="@string/patronomyc"
+    >
+
+    <com.google.android.material.textfield.TextInputEditText
+        android:id="@+id/textInputPatronomyc"
+        style="@style/EditText" />
+</com.google.android.material.textfield.TextInputLayout>
+
+<com.google.android.material.textfield.TextInputLayout
+    android:id="@+id/outlinedNumber"
+    style="@style/TextField"
+    android:layout_gravity="center"
+    android:layout_width="300dp"
+    android:layout_height="wrap_content"
+    android:hint="@string/phone"
+
+    >
+
+    <com.google.android.material.textfield.TextInputEditText
+        android:id="@+id/textInputNumber"
+        style="@style/EditText"
+        android:inputType="phone" />
+</com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/outlinedMail"
+        style="@style/TextField"
+        android:layout_gravity="center"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:hint="@string/mail"
+
+
+        >
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/textInputMail"
+            style="@style/EditText"
+            android:inputType="textEmailAddress"/>
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <TextView
+    style="@style/text"
+    android:layout_width="300dp"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="15dp"
+    android:text="@string/title_count_of_book"
+    android:textSize="20sp" />
+    <NumberPicker
+        android:id="@+id/numberPicker"
+        android:layout_width="wrap_content"
+        android:layout_height="110dp"
+        android:layout_gravity="center_horizontal"
+        android:theme="@style/NumberPickerCustomText"
+
+        />
+
+
+    <com.google.android.material.button.MaterialButton
+    android:id="@+id/buttonBook"
+    style="@style/Button"
+    android:layout_gravity="center"
+    android:layout_marginBottom="10dp"
+    android:text="@string/to_book" />
+
+
+</LinearLayout>
+</ScrollView>

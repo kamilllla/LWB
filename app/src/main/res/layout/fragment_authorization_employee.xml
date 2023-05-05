@@ -5,7 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".activities.EnterActivity2"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:background="@color/white_bezh">
 
 
     <com.google.android.material.textfield.TextInputLayout
@@ -16,7 +17,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="110dp"
         android:layout_marginEnd="8dp"
-        android:hint="Логин">
+        android:hint="@string/login">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/textInputEmail"
@@ -34,7 +35,7 @@
         android:layout_width="325dp"
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
-        android:hint="Пароль"
+        android:hint="@string/password"
         app:hintTextColor="@color/black"
         app:endIconMode="password_toggle"
         >
@@ -56,10 +57,11 @@
         android:text="@string/sign_in" />
 
     <com.google.android.material.button.MaterialButton
-        android:id="@+id/buttonBack"
+        android:id="@+id/buttonUp"
         style="@style/ButtonOutline"
+        android:layout_width="300dp"
+        android:layout_height="58dp"
         android:layout_gravity="center"
-        app:strokeColor="@color/bezh"
         android:layout_marginTop="10dp"
         android:text="@string/back" />
 

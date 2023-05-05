@@ -62,9 +62,9 @@
                 android:layout_width="wrap_content"
                 android:textSize="25sp"
                 android:layout_marginTop="10dp"
-                android:fontFamily="@font/rubik"
+                android:fontFamily="@font/gilroy_light"
                 android:textColor="@color/blue"
-                android:text=""/>
+                android:text="hjhvhjvj"/>
 
 
             <com.google.android.material.textfield.TextInputLayout

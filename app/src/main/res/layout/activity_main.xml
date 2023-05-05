@@ -6,7 +6,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:background="@color/grey"
+        android:background="@color/white_bezh"
         tools:context="com.example.lwb.activities.MainActivity">
 
         <FrameLayout
@@ -16,13 +16,17 @@
             android:id="@+id/containers"
             />
 
-        <com.google.android.material.bottomnavigation.BottomNavigationView
-       android:id="@+id/bottom"
-        android:layout_width="match_parent"
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bottom"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:layout_margin="20dp"
+        app:itemIconTint="@color/dark_green"
         app:menu="@menu/bottom_navigation_menu"
-        app:labelVisibilityMode="selected"
+        app:labelVisibilityMode="labeled"
         android:background="@drawable/shape_of_bottom"
         android:layout_gravity="bottom"
         />
-    </FrameLayout>
+
+</FrameLayout>

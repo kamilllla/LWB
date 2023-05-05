@@ -4,19 +4,38 @@
     <string name="education">Образование</string>
     <string name="chat">Чат</string>
     <string name="back">Назад</string>
-    <string name="sign_in">войти</string>
-    <string name="sign_up">зарегистрироваться</string>
-    <string name="sign_up_emp">войти как сотрудник</string>
-    <!-- TODO: Remove or change this placeholder text -->
+    <string name="sign_in">Войти</string>
+    <string name="sign_up">Зарегистрироваться</string>
+    <string name="sign_up_emp">Войти как сотрудник</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="title_activity_chat">ChatActivity</string>
+    <string name="login">Логин</string>
+    <string name="password">Пароль</string>
+    <string name="repassword">Повторите пароль</string>
+    <string name="name">Имя</string>
+    <string name="surname">Фамилия</string>
+    <string name="patronomyc">Отчество</string>
+    <string name="phone">Номер телефона</string>
+    <string name="mail">Почта</string>
+    <string name="countOfTickets">Количество мест</string>
+    <string name="to_book">Забронировать</string>
+    <string name="first_fragment_label">First</string>
+    <string name="second_fragment_label">Second</string>
+    <string name="cancel">Отменить</string>
+    <string name="yes">Да</string>
+    <string name="no">Нет</string>
     <!-- Strings used for fragments for navigation -->
-    <string name="first_fragment_label">First Fragment</string>
-    <string name="second_fragment_label">Second Fragment</string>
+
     <string name="next">Next</string>
     <string name="previous">Previous</string>
-
+    <string name="title_for_registration_dialog_fragment">Регистрация\nна мероприятие</string>
+    <string name="title_count_of_book">Количество бронируемых мест:</string>
+    <string name="events">Мероприятия</string>
     <string name="hello_first_fragment">Hello first fragment</string>
     <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
 
+    <string name="text_of_letter">Здравствуйте! Вы забронировали место на участие в мероприятии \"%1$s\" от организации \"Языки без границ\".\n\n Дата и время проведения: %2$s %3$s\n Адрес проведения: %4$s\n Количество забронированных мест: %5$d\n\nЕсли у Вас будут вопросы, Вы можете написать нам на данный электронный адрес, в приложении, или в социальных сетях, не стесняйтесь!</string>
+    <string name="flag_send">Участие в мероприятии успешно забронировано! Вам было отправлено сообщение на электронную почту.</string>
+    <string name="flag_error_send">Произошла ошибка при отправке электронного письма о бронировании мест на мероприятие! Вы можете нам написать на электронную почту или позвонить.</string>
+    <string name="error_occured">Произошла ошибка бронирования, попробуйте снова!</string>
 </resources>
