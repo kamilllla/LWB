@@ -1,58 +1,55 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/bezh"
-    android:orientation="vertical">
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-android:orientation="horizontal">
-
-    <com.google.android.material.imageview.ShapeableImageView
-        android:id="@+id/image"
-        android:layout_margin="5dp"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-
-        android:foreground="@drawable/flower"
-        />
-
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:expandableTextView="http://schemas.android.com/tools"
+    app:cardCornerRadius="10dp"
+    android:backgroundTint="#FFFFFF"
+    android:layout_margin="10dp"
+    app:strokeColor="@color/greyLight"
+    app:strokeWidth="1dp"
+    >
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        >
-    <TextView
-        android:id="@+id/nameUser"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:textColor="@color/black"
-        android:layout_marginTop="5dp"
-        android:layout_toEndOf="@id/image"
-        android:text="nane"
-        android:textSize="20sp" />
-
-    <TextView
-        android:id="@+id/message"
-    android:layout_marginTop="5dp"
-    android:textSize="11sp"
-    android:maxLines="1"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_below="@+id/nameUser"
-    android:layout_toEndOf="@id/image"
-    android:layout_alignParentRight="true"/>
-
-    </LinearLayout>
-    </LinearLayout>
-    <View
-    android:id="@+id/view1"
-    android:layout_width="wrap_content"
-    android:layout_height="2dp"
-    android:background="@android:color/darker_gray" />
+      >
 
 
+            <TextView
+                android:id="@+id/nameUser"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/black"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                style="@style/text"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="5dp"
+                android:text="nane"
+               />
 
-</LinearLayout>
+
+            <TextView
+                android:id="@+id/recentMessage"
+                android:layout_width="210dp"
+                android:layout_height="match_parent"
+                android:layout_marginStart="15dp"
+                android:layout_marginEnd="10dp"
+                android:layout_marginBottom="10dp"
+
+                android:fontFamily="@font/gilroy_light"
+                android:text="Экскурсия gj 'hvbnf;e gj 'hvbnf;e"
+                android:textColor="@color/greyLight"
+                android:textSize="15sp"
+                android:textStyle="bold" />
+
+
+        </LinearLayout>
+
+</com.google.android.material.card.MaterialCardView>
+
+

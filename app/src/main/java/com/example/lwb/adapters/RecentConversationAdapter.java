@@ -9,31 +9,34 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.lwb.Message;
 import com.example.lwb.R;
 import com.example.lwb.User;
 
 import java.util.List;
 
-public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.ViewHolder> {
-private List<User> users;
-
+public class RecentConversationAdapter extends RecyclerView.Adapter<RecentConversationAdapter.ViewHolder> {
+private List<Message> messages;
+//интерфейс для реализации метода при нажатиии на элемент списка
 public interface UserInterface {
-        void onClickUser(User user);
+        void onClickUser(User uesr);
 
     }
-    private final UsersAdapter.UserInterface interfaceClick;
-
-    public UsersAdapter(List<User> users, UserInterface interfaceClick) {
-        this.users = users;
+    private final RecentConversationAdapter.UserInterface interfaceClick;
+//коснтруктор
+    public RecentConversationAdapter(List<Message> messages, UserInterface interfaceClick) {
+        this.messages = messages;
         this.interfaceClick = interfaceClick;
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         TextView textName;
+        TextView recentMessage;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             textName=itemView.findViewById(R.id.nameUser);
+            recentMessage=itemView.findViewById(R.id.recentMessage);
         }
     }
 
@@ -44,19 +47,23 @@ public interface UserInterface {
         LayoutInflater inflater = LayoutInflater.from(context);
         //создание из содержимого layout View-элемента
         View userView = inflater.inflate(R.layout.item_user_list, parent, false);
-        UsersAdapter.ViewHolder viewHolder = new UsersAdapter.ViewHolder(userView);
+        RecentConversationAdapter.ViewHolder viewHolder = new RecentConversationAdapter.ViewHolder(userView);
         return viewHolder;
 
     }
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        User user=users.get(position);
+        Message message=messages.get(position);
         // устанавливаем данные View на основе макета(содержашемся в holder)
-       holder.textName.setText(user.name);
+       holder.textName.setText(message.getCoversitionName());
+       holder.recentMessage.setText(message.getTextMessage());
        holder.itemView.setOnClickListener(new View.OnClickListener() {
            @Override
            public void onClick(View view) {
+               User user=new User();
+               user.name=message.getCoversitionName();
+
                interfaceClick.onClickUser(user);
            }
        });
@@ -66,7 +73,7 @@ public interface UserInterface {
 
     @Override
     public int getItemCount() {
-        return users.size();
+        return messages.size();
     }
 
 

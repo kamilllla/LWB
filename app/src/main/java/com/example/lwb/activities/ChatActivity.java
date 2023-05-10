@@ -9,6 +9,7 @@ import com.example.lwb.Constants;
 import com.example.lwb.Message;
 import com.example.lwb.R;
 import com.example.lwb.User;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 
@@ -24,6 +25,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.firestore.DocumentChange;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -44,6 +47,7 @@ public class ChatActivity extends AppCompatActivity {
     private User user;
     private List<Message> messages;
     private ChatAdapter chatAdapter;
+    private String conversationId="";
     private FirebaseFirestore firebaseFirestore=FirebaseFirestore.getInstance();
     RecyclerView recyclerView;
     TextInputEditText editText;
@@ -64,7 +68,7 @@ public class ChatActivity extends AppCompatActivity {
         editText=findViewById(R.id.messageField);
         buttonSend=findViewById(R.id.btnSend);
         buttonBack=findViewById(R.id.buttonBack);
-//назначение слушателей
+        //назначение слушателей
         buttonBack.setOnClickListener(onClickBackListener);
         buttonSend.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -91,6 +95,18 @@ public class ChatActivity extends AppCompatActivity {
         message.put(Constants.CHAT_RECEIVER, user.name );
         message.put(Constants.CHAT_TIME, new Date() );
         firebaseFirestore.collection(Constants.COLLECTION_CHAT).add(message);
+        if(!conversationId.equals("")) {
+            updateConversation(editText.getText().toString() );
+        }
+        else{
+            HashMap<String, Object> conversation=new HashMap<>();
+            conversation.put(Constants.CHAT_SENDER,  getApplicationContext().getSharedPreferences(Constants.SHARED_PREFERENCES, MODE_PRIVATE).getString(Constants.USER_NAME,Constants.USER_NAME));
+            conversation.put(Constants.CONVERSATION_SENDER_NAME, getApplicationContext().getSharedPreferences(Constants.SHARED_PREFERENCES, MODE_PRIVATE).getString(Constants.USER_NAME,Constants.USER_NAME));
+            conversation.put(Constants.CONVERSATION_RECEIVER_NAME, user.name );
+            conversation.put(Constants.CONVERSATION_LAST_MESSAGE, editText.getText().toString() );
+            conversation.put(Constants.CHAT_TIME, new Date());
+            addConversation(conversation);
+        }
         editText.setText(null);
     }
 //преобразование даты из бд в нудный формат
@@ -98,7 +114,7 @@ public class ChatActivity extends AppCompatActivity {
         return new SimpleDateFormat("hh:mm a, dd.MM.yy", Locale.getDefault()).format(date);
     }
 
-    //метод для выгрузки сообшений из БД
+    //метод для выгрузки сообщений из БД
     private void listenMessages(){
         firebaseFirestore.collection(Constants.COLLECTION_CHAT).
                 whereEqualTo(Constants.CHAT_SENDER,  getApplicationContext().getSharedPreferences(Constants.SHARED_PREFERENCES, MODE_PRIVATE).getString(Constants.USER_NAME,Constants.USER_NAME)).
@@ -116,7 +132,6 @@ public class ChatActivity extends AppCompatActivity {
     private final EventListener<QuerySnapshot> eventListener = (value, error) ->{
         if (error != null){
             return;
-
         }
         if (value != null) {
             int count = messages.size();
@@ -140,10 +155,13 @@ public class ChatActivity extends AppCompatActivity {
                 chatAdapter.notifyItemRangeInserted(messages.size(), messages.size());
                 recyclerView.smoothScrollToPosition(messages.size()-1);
             }
-
+        }
+        if (conversationId.equals("")){
+            checkForConversation();
         }
 
     };
+
     //слушатель для события возврата к предыдущей активности
     View.OnClickListener onClickBackListener= new View.OnClickListener() {
         @Override
@@ -158,5 +176,45 @@ public class ChatActivity extends AppCompatActivity {
 
             }
         };
+    //TODO: rename functions:
+    private void addConversation(HashMap<String, Object> conversation){
+        firebaseFirestore.collection(Constants.COLLECTION_CONVERSATION)
+                .add(conversation)
+                .addOnSuccessListener(documentReference -> conversationId =documentReference.getId());
 
+
+    }
+    private void updateConversation(String message){
+        DocumentReference documentReference=firebaseFirestore.collection(Constants.COLLECTION_CONVERSATION)
+                .document(conversationId);
+        documentReference.update(Constants.CONVERSATION_LAST_MESSAGE, message,
+                Constants.CHAT_TIME, new Date());
+
+
+    }
+
+    private void checkForConversation(){
+        if (messages.size()!=0){
+            checkForConversationRemotely(getApplicationContext().getSharedPreferences(Constants.SHARED_PREFERENCES, Context.MODE_PRIVATE).getString(Constants.USER_NAME, Constants.USER_NAME),
+                    user.name);
+            checkForConversationRemotely(user.name,
+                    getApplicationContext()
+                    .getSharedPreferences(Constants.SHARED_PREFERENCES, Context.MODE_PRIVATE)
+                    .getString(Constants.USER_NAME, Constants.USER_NAME));
+        }
+    }
+    private void checkForConversationRemotely(String senderId, String receiverId){
+        firebaseFirestore.collection(Constants.COLLECTION_CONVERSATION)
+                .whereEqualTo(Constants.CHAT_SENDER, senderId)
+                .whereEqualTo(Constants.CHAT_RECEIVER,receiverId)
+                .get()
+                .addOnCompleteListener(conversationOnCOmpleteListener);
+    }
+
+    private final OnCompleteListener<QuerySnapshot> conversationOnCOmpleteListener=task -> {
+        if (task.isSuccessful() && task.getResult()!=null && task.getResult().getDocuments().size()>0){
+            DocumentSnapshot documentSnapshot=task.getResult().getDocuments().get(0);
+            conversationId=documentSnapshot.getId();
+        }
+    };
 }

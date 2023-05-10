@@ -21,7 +21,7 @@ public class MainActivityForEmployee extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_for_employee);
         //иницализация комопнентов активности
-        BottomNavigationView bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottomNavigationViewEmployeeActivity);
+        BottomNavigationView bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottom);
         //назначение слушателя для компонента меню
         bottomNavigationView.setOnItemSelectedListener(mOnNavigationItemSelectedListener);
         bottomNavigationView.setSelectedItemId(R.id.chat);

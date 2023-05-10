@@ -9,26 +9,14 @@ public class Message {
 
     private String userName;
 
-    public String getReceiverId() {
-        return receiverId;
-    }
-
-    public void setReceiverId(String receiverId) {
-        this.receiverId = receiverId;
-    }
 
     private String receiverId;
     private String textMessage;
     private String messageTime;
     private Date messageTimeDate;
+    private String  conversionId, coversitionName;
 
-    public String getMessageTime() {
-        return messageTime;
-    }
 
-    public void setMessageTime(String messageTime) {
-        this.messageTime = messageTime;
-    }
 
     public Message(String userName, String receiverId, String textMessage, String messageTime, Date messageTimeDate) {
         this.userName = userName;
@@ -38,6 +26,39 @@ public class Message {
 
         this.messageTimeDate = messageTimeDate;
     }
+
+    public String getReceiverId() {
+        return receiverId;
+    }
+
+    public void setReceiverId(String receiverId) {
+        this.receiverId = receiverId;
+    }
+
+    public String getMessageTime() {
+        return messageTime;
+    }
+
+    public void setMessageTime(String messageTime) {
+        this.messageTime = messageTime;
+    }
+
+    public String getConversionId() {
+        return conversionId;
+    }
+
+    public void setConversionId(String conversionId) {
+        this.conversionId = conversionId;
+    }
+
+    public String getCoversitionName() {
+        return coversitionName;
+    }
+
+    public void setCoversitionName(String coversitionName) {
+        this.coversitionName = coversitionName;
+    }
+
 
     public String getUserName() {
         return userName;

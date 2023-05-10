@@ -1,8 +1,10 @@
 package com.example.lwb;
 
 public class Guid {
+    public Guid() {
+    }
 
-        private String name;
+    private String name;
         private double mark;
         private String genre;
         private int color;

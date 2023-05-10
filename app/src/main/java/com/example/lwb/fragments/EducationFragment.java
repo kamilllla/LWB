@@ -25,18 +25,23 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.lwb.Categories;
+import com.example.lwb.Constants;
 import com.example.lwb.Guid;
+import com.example.lwb.Message;
 import com.example.lwb.R;
 import com.example.lwb.activities.VPlayer;
 import com.example.lwb.adapters.GuidAdapter;
 import com.example.lwb.adapters.SecondAdapter;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.DocumentChange;
+import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 
@@ -54,6 +59,16 @@ public class EducationFragment extends Fragment {
     public EducationFragment() {
         // Required empty public constructor
     }
+    SecondAdapter.OnGuidClickListenerInterface onGuidClickListenerInterface=new SecondAdapter.OnGuidClickListenerInterface() {
+        @Override
+        public void onClickGuid(Guid guid, Categories category) {
+            Intent intent=new Intent(getContext(), VPlayer.class);
+            intent.putExtra("guid", guid.getName());
+            intent.putExtra("category", category.getNameOfCategorie());
+            startActivity(intent);
+
+        }
+    };
 
 
 
@@ -65,42 +80,15 @@ public class EducationFragment extends Fragment {
         View view=inflater.inflate(R.layout.fragment_education, container, false);
         searchView = view.findViewById(R.id.searchView);
         searchImageView=view.findViewById(R.id.searchImage);
-
+        recyclerView = view.findViewById(R.id.recyclerView);
+        categories=new ArrayList<>();
+        guidAdapter = new GuidAdapter(categories, getContext(), onGuidClickListenerInterface);
+        recyclerView.setAdapter(guidAdapter);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         //назначение слушателе компонентам
         searchImageView.setOnClickListener(searchClick);
         //метод - слушатель ввода текста
-        searchView.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable editable) {
-                List<Categories> filteredList = new ArrayList<>();
-                int found = 0;
-                for (Categories category : categories) {
-                    List<Guid> guidsFiltred = new ArrayList<>();
-                    found = 0;
-                    for (Guid guid : category.getGuids()) {
-                        if (guid.getName().toLowerCase().trim().contains(editable.toString().toLowerCase().trim())) {
-                            guidsFiltred.add(guid);
-                            found = 1;
-                        }
-                    }
-                    if (found == 1) {
-                        filteredList.add(new Categories(category.getNameOfCategorie(), guidsFiltred));
-                    }
-                }
-                //
-                // guidAdapter.setFilteredList(filteredList);
-            }
-        });
+        searchView.addTextChangedListener(textWatcher);
         searchView.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View view, boolean b) {
@@ -117,19 +105,7 @@ public class EducationFragment extends Fragment {
             }
         });
 
-        SecondAdapter.OnGuidClickListenerInterface onGuidClickListenerInterface=new SecondAdapter.OnGuidClickListenerInterface() {
-            @Override
-            public void onClickGuid(Guid guid, Categories category) {
-                Intent intent=new Intent(getContext(), VPlayer.class);
-                intent.putExtra("guid", guid.getName());
-                intent.putExtra("category", category.getNameOfCategorie());
-                startActivity(intent);
 
-            }
-        };
-
-
-        recyclerView = view.findViewById(R.id.recyclerView);
         db.collection("Видеогиды").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
@@ -169,6 +145,39 @@ public class EducationFragment extends Fragment {
         return view;
 
     }
+
+     TextWatcher textWatcher= new TextWatcher() {
+        @Override
+        public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+        }
+
+        @Override
+        public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+        }
+
+        @Override
+        public void afterTextChanged(Editable editable) {
+            List<Categories> filteredList = new ArrayList<>();
+            int found = 0;
+            for (Categories category : categories) {
+                List<Guid> guidsFiltred = new ArrayList<>();
+                found = 0;
+                for (Guid guid : category.getGuids()) {
+                    if (guid.getName().toLowerCase().trim().contains(editable.toString().toLowerCase().trim())) {
+                        guidsFiltred.add(guid);
+                        found = 1;
+                    }
+                }
+                if (found == 1) {
+                    filteredList.add(new Categories(category.getNameOfCategorie(), guidsFiltred));
+                }
+            }
+            //
+            // guidAdapter.setFilteredList(filteredList);
+        }
+    };
 
 //слушатель для события открытия и закрытия поисковой строки
     View.OnClickListener searchClick =new View.OnClickListener() {
@@ -220,6 +229,47 @@ public class EducationFragment extends Fragment {
         inputManager.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
 
     }
+    //обращенияк БД
+    //метод для выгрузки сообщений из БД
+//    private void listenMessages(){
+//        db.collection(Constants.COLLECTION_LECTURES).
+//                addSnapshotListener(eventListener);
+//
+//    }
+    //слушатель для выгрузки данных из БД
+//    private final EventListener<QuerySnapshot> eventListener = (value, error) ->{
+//        if (error != null){
+//            return;
+//        }
+//        if (value != null) {
+//            int count = categories.size();
+//            for (DocumentChange documentChange : value.getDocumentChanges()) {
+//                if(documentChange.getType()==DocumentChange.Type.ADDED) {
+//                    Guid guid = new Guid();
+//                    guid.add(new Guid(document1.getId(), document1.getString("uri")));
+//                    message.setUserName(documentChange.getDocument().getString(Constants.CHAT_SENDER));
+//                    Log.d("CHATSENDER", documentChange.getDocument().getString(Constants.CHAT_SENDER));
+//                    message.setReceiverId(documentChange.getDocument().getString(Constants.CHAT_RECEIVER));
+//                    message.setTextMessage(documentChange.getDocument().getString(Constants.CHAT_MESSAGE));
+//                    message.setMessageTime(getReadableDateTime(documentChange.getDocument().getDate(Constants.CHAT_TIME)));
+//                    message.setMessageTimeDate(documentChange.getDocument().getDate(Constants.CHAT_TIME));
+//                    messages.add(message);
+//                }
+//
+//            }
+//            Collections.sort(messages, (obj1, obj2) -> obj1.getMessageTimeDate().compareTo(obj2.getMessageTimeDate()));
+//            if (count ==0){
+//                chatAdapter.notifyDataSetChanged();
+//            }else{
+//                chatAdapter.notifyItemRangeInserted(messages.size(), messages.size());
+//                recyclerView.smoothScrollToPosition(messages.size()-1);
+//            }
+//        }
+//        if (conversationId.equals("")){
+//            checkForConversation();
+//        }
+//
+//    };
 
 
 

@@ -30,6 +30,10 @@
     <string name="previous">Previous</string>
     <string name="title_for_registration_dialog_fragment">Регистрация\nна мероприятие</string>
     <string name="title_count_of_book">Количество бронируемых мест:</string>
+    <string name="title_of_chat">Список активных чатов</string>
+    <string name="message_alert">У Вас нет сообщений</string>
+    <string name="notification">Уведомление</string>
+    <string name="warning_available">К сожалению на данное мероприятие нет свободных мест!</string>
     <string name="events">Мероприятия</string>
     <string name="hello_first_fragment">Hello first fragment</string>
     <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>

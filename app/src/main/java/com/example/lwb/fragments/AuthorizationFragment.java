@@ -46,9 +46,9 @@ public class AuthorizationFragment extends Fragment {
 
     //нужный фрагменту интерфейс
     public interface AuthorizationFragmentInterface {
-        public void toRegistrationFragmnet();
-        public void toMainActivity();
-        public void toAuthEmployee();
+        void toRegistrationFragmnet();
+        void toMainActivity();
+        void toAuthEmployee();
     }
 
     private AuthorizationFragmentInterface authorizationFragmentInterface;
@@ -63,8 +63,8 @@ public class AuthorizationFragment extends Fragment {
         textPassword = view.findViewById(R.id.textInputPassword);
         textInputLayoutLogin = view.findViewById(R.id.outlinedTextField2);
         textInputLayoutPassword = view.findViewById(R.id.outlinedTextField3);
-
         textViewToFragment=view.findViewById(R.id.textAuthEmployee);
+
         signUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

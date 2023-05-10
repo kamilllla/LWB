@@ -11,17 +11,20 @@
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/outlinedTextField2"
-        style="@style/TextField"
+        app:boxStrokeColor="@color/greyLight"
+        android:hint="@string/login"
+        app:shapeAppearanceOverlay="@style/ShapeOfTextField"
         android:layout_width="325dp"
         android:layout_gravity="center"
         android:layout_height="wrap_content"
-        android:layout_marginTop="110dp"
-        android:layout_marginEnd="8dp"
-        android:hint="@string/login">
+        style="@style/TextField"
+        >
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/textInputEmail"
             style="@style/EditText"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
 
             />
     </com.google.android.material.textfield.TextInputLayout>
@@ -31,10 +34,10 @@
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/outlinedTextField3"
         style="@style/TextField"
+        app:shapeAppearanceOverlay="@style/ShapeOfTextField"
         android:layout_gravity="center"
         android:layout_width="325dp"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
         android:hint="@string/password"
         app:hintTextColor="@color/black"
         app:endIconMode="password_toggle"
@@ -52,12 +55,12 @@
     <com.google.android.material.button.MaterialButton
         android:id="@+id/buttonIn"
         style="@style/Button"
-        android:layout_marginTop="30dp"
         android:layout_gravity="center"
+        android:layout_marginTop="30dp"
         android:text="@string/sign_in" />
 
     <com.google.android.material.button.MaterialButton
-        android:id="@+id/buttonUp"
+        android:id="@+id/buttonBack"
         style="@style/ButtonOutline"
         android:layout_width="300dp"
         android:layout_height="58dp"

@@ -1,6 +1,8 @@
 package com.example.lwb.fragments;
 
 
+import android.app.AlertDialog;
+import android.content.Context;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -40,6 +42,7 @@ public class RegistrationDialogFragment extends DialogFragment {
     TextInputEditText surnameEditText;
     TextInputEditText patronomycEditText;
     TextInputEditText numberEditText;
+    FirebaseFirestore db=FirebaseFirestore.getInstance();
     NumberPicker numberPicker;
     Bundle arguments;
     String name;
@@ -49,6 +52,7 @@ public class RegistrationDialogFragment extends DialogFragment {
     String email;
     int count;
     JavaMailAPI javaMailAPI;
+    RegistrationDialogInterface registrationDialogInterface;
 
     private static final String ARG_NAME = "name";
     private static final String ARG_DESC = "description";
@@ -77,6 +81,10 @@ public class RegistrationDialogFragment extends DialogFragment {
         fragment.setArguments(bundle);
         return fragment;
     }
+    public interface RegistrationDialogInterface{
+        void updateEventList(String date);
+
+    }
 
 
 
@@ -86,8 +94,6 @@ public class RegistrationDialogFragment extends DialogFragment {
 
         arguments=getArguments();
 
-
-
         Button cancel = view.findViewById(R.id.buttonCancel);
         Button bookButton = view.findViewById(R.id.buttonBook);
         numberPicker = view.findViewById(R.id.numberPicker);
@@ -96,6 +102,7 @@ public class RegistrationDialogFragment extends DialogFragment {
         surnameEditText=view.findViewById(R.id.textInputSurname);
         patronomycEditText=view.findViewById(R.id.textInputPatronomyc);
         numberEditText=view.findViewById(R.id.textInputNumber);
+        checkAvailability(arguments.getInt(ARG_COUNT));
         customizeNumberPicker(arguments.getInt(ARG_COUNT));
         bookButton.setOnClickListener(buttonClick);
         cancel.setOnClickListener(buttonClick);
@@ -117,6 +124,9 @@ public class RegistrationDialogFragment extends DialogFragment {
                 javaMailAPI=new JavaMailAPI(getContext(), mailEditText.getText().toString(), Constants.THEME_OF_EMAIL, getActivity().getResources().getString(R.string.text_of_letter, arguments.getString(ARG_NAME),arguments.getString(ARG_DATE),arguments.getString(ARG_TIME),arguments.getString(ARG_PLACE), booking.getCountOfPlaces()));
                 //формирование новой записи в БД о бронировании и отправка письма
                 bookingFormation(arguments.getString(ARG_DATE),arguments.getString(ARG_TIME), booking);
+                updateInformationDb(String.valueOf(calculationCountOfPlace(arguments.getInt(ARG_COUNT), Integer.valueOf(booking.getCountOfPlaces()))));
+                registrationDialogInterface.updateEventList(arguments.getString(ARG_DATE));
+
                 dismiss();
                 return;
             }
@@ -131,7 +141,7 @@ public class RegistrationDialogFragment extends DialogFragment {
     }
 
     //метод создания экземпляра класса брониования
-    public Booking createBooking()
+    private Booking createBooking()
     {
         name=nameEditText.getText().toString();
         surname=surnameEditText.getText().toString();
@@ -142,18 +152,33 @@ public class RegistrationDialogFragment extends DialogFragment {
         Booking booking=new Booking(name, surname, patronomyc, number, email, count);
         return booking;
     }
+    //рассчет количества мест
+    private int calculationCountOfPlace(int countAmount, int numberOfBooked){
+        int total=countAmount-numberOfBooked;
+        return total;
+    }
 
 
 //метод добавления бронирования
-    public void bookingFormation(String dateOfEvent, String timeOfEvent, Booking booking){
+    private void bookingFormation(String dateOfEvent, String timeOfEvent, Booking booking){
 
-        FirebaseFirestore db=FirebaseFirestore.getInstance();
         db.collection(Constants.COLLECTION_EVENTS).document(dateOfEvent).collection(dateOfEvent).document(timeOfEvent).collection(Constants.BOOKING).
                 add(booking).
                 addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                     @Override
                     public void onSuccess(DocumentReference documentReference) {
-                        javaMailAPI.execute();
+                        try {
+                            javaMailAPI.execute();
+                            Log.e("RDF", "BOOK");
+                             }
+                        catch (Exception e){
+
+                            AlertDialog.Builder alertDialog=new AlertDialog.Builder(getActivity());
+                            alertDialog.setTitle(getString(R.string.notification));
+                            alertDialog.setMessage(e.toString());
+                            alertDialog.show();
+                            dismiss();
+                        }
 
                     }
                 }).
@@ -170,27 +195,51 @@ public class RegistrationDialogFragment extends DialogFragment {
 
 
     //метод обновления ифнормации в БД о мероприятии после бронирования
-    public void updateInformation(String newValue){
+    public void updateInformationDb(String newValue){
 
-        FirebaseFirestore db=FirebaseFirestore.getInstance();
         db.collection(Constants.COLLECTION_EVENTS).document(arguments.getString(ARG_DATE)).collection(arguments.getString(ARG_DATE)).document(arguments.getString(ARG_TIME))
                 .update(Constants.FIELD_COUNT_OF_PLACES, newValue)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void unused) {
+                        Log.e("REGFRAG", "SUCCESS");
 
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
+                        Log.e("REGFRAG", "NOT SUCCESS");
 
 
                     }
                 });
 
     }
+    // проверка  наличия мест
+    private void checkAvailability(int count){
+        if(count==0){
+            AlertDialog.Builder alertDialog=new AlertDialog.Builder(getActivity());
+            alertDialog.setTitle(getString(R.string.notification));
+            alertDialog.setMessage(getString(R.string.warning_available));
+            alertDialog.show();
+            dismiss();
+        }
+        else {
+            return;
+        }
 
+
+
+    }
+
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+        if (context instanceof RegistrationDialogFragment.RegistrationDialogInterface) {
+            registrationDialogInterface = (RegistrationDialogFragment.RegistrationDialogInterface) context;
+        }
+    }
 
 //    @Override
 //    public void onCreate(Bundle savedInstanceState) {
