@@ -89,95 +89,12 @@ public class EducationFragment extends Fragment {
         searchImageView.setOnClickListener(searchClick);
         //метод - слушатель ввода текста
         searchView.addTextChangedListener(textWatcher);
-        searchView.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View view, boolean b) {
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                    if (searchView.hasFocus())
-                    Log.e("hasfocus", String.valueOf(searchView.getFocusable()));
-                    if (searchView.hasFocusable())
-                        Log.e("hasfocusable", String.valueOf(searchView.getFocusable()));
-                    if (!searchView.hasFocus()){
-                        Log.e("NOThasfocus", String.valueOf(searchView.getFocusable()));
-
-                    }
-                }
-            }
-        });
-
-
-        db.collection("Видеогиды").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                if (task.isSuccessful()) {
-                    for (QueryDocumentSnapshot document : task.getResult()) {
-                        ArrayList<Guid> guid = new ArrayList<Guid>();
-                        db.collection("Видеогиды").document(document.getId()).collection(document.getId()).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                                                                                                                                           @Override
-                                                                                                                                           public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                                                                                                                                               if (task.isSuccessful()) {
-
-                                                                                                                                                   for (QueryDocumentSnapshot document1 : task.getResult()) {
-                                                                                                                                                       Log.i("TAG", document.getId()+"  "+document1.getId());
-                                                                                                                                                       guid.add(new Guid(document1.getId(), document1.getString("uri")));
-
-                                                                                                                                                   }
-                                                                                                                                                   categories.add(new Categories(document.getId(), guid));
-                                                                                                                                                   guidAdapter = new GuidAdapter(categories, getContext(), onGuidClickListenerInterface);
-                                                                                                                                                   recyclerView.setAdapter(guidAdapter);
-                                                                                                                                                   recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-                                                                                                                                               }
-
-                                                                                                                                           }
-                                                                                                                                       }
-                        );
-
-
-                    }
-                }
-                else {
-                    Log.i("TAG", "Error:"+ task.getException() );
-                }
-            }
-        });
-
-
+        loadDataInRecyclerView();
         return view;
 
     }
 
-     TextWatcher textWatcher= new TextWatcher() {
-        @Override
-        public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
 
-        }
-
-        @Override
-        public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-        }
-
-        @Override
-        public void afterTextChanged(Editable editable) {
-            List<Categories> filteredList = new ArrayList<>();
-            int found = 0;
-            for (Categories category : categories) {
-                List<Guid> guidsFiltred = new ArrayList<>();
-                found = 0;
-                for (Guid guid : category.getGuids()) {
-                    if (guid.getName().toLowerCase().trim().contains(editable.toString().toLowerCase().trim())) {
-                        guidsFiltred.add(guid);
-                        found = 1;
-                    }
-                }
-                if (found == 1) {
-                    filteredList.add(new Categories(category.getNameOfCategorie(), guidsFiltred));
-                }
-            }
-            //
-            // guidAdapter.setFilteredList(filteredList);
-        }
-    };
 
 //слушатель для события открытия и закрытия поисковой строки
     View.OnClickListener searchClick =new View.OnClickListener() {
@@ -201,6 +118,8 @@ public class EducationFragment extends Fragment {
                 closeKeyboard();
                 searchImageView.setImageResource(R.drawable.search);
                 searchImageView.setPadding(0,0,0,0);
+                guidAdapter = new GuidAdapter(categories, getContext(), onGuidClickListenerInterface);
+                recyclerView.setAdapter(guidAdapter);
             }
 
         }
@@ -229,6 +148,83 @@ public class EducationFragment extends Fragment {
         inputManager.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
 
     }
+
+    //слушатель события изменения текста в компоненте
+    TextWatcher textWatcher= new TextWatcher() {
+        //событие, наступающее после изменения текста
+        @Override
+        public void afterTextChanged(Editable editable) {
+            List<Categories> filteredList = new ArrayList<>();
+            int found = 0;
+            for (Categories category : categories) {
+                List<Guid> guidsFiltred = new ArrayList<>();
+                found = 0;
+                for (Guid guid : category.getGuids()) {
+                    if (guid.getName().toLowerCase().trim().contains(editable.toString().toLowerCase().trim())) {
+                        guidsFiltred.add(guid);
+                        found = 1;
+                    }
+                }
+                if (found == 1) {
+                    filteredList.add(new Categories(category.getNameOfCategorie(), guidsFiltred));
+                    guidAdapter = new GuidAdapter(filteredList, getContext(), onGuidClickListenerInterface);
+                    recyclerView.setAdapter(guidAdapter);
+                }
+            }
+        }
+        //необходимые слушателю события (до изменения текста и во время)
+        @Override
+        public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+        }
+
+        @Override
+        public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+        }
+    };
+    // метод - обращение к БД и выгрузка списка видеогидов
+    private void loadDataInRecyclerView() {
+        db.collection(Constants.COLLECTION_LECTURES).get()
+            .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                if (task.isSuccessful()) {
+                    for (QueryDocumentSnapshot document : task.getResult()) {
+                        ArrayList<Guid> guid = new ArrayList<Guid>();
+                        db.collection(Constants.COLLECTION_LECTURES).document(document.getId()).collection(document.getId())
+                        .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                             @Override
+                             public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                 if (task.isSuccessful()) {
+
+                                     for (QueryDocumentSnapshot document1 : task.getResult()) {
+                                         guid.add(new Guid(document1.getId(), document1.getString("uri")));
+
+                                     }
+                                     categories.add(new Categories(document.getId(), guid));
+                                     guidAdapter = new GuidAdapter(categories, getContext(), onGuidClickListenerInterface);
+                                     recyclerView.setAdapter(guidAdapter);
+                                     recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+                                 }
+
+                             }
+                         }
+                        );
+
+
+                    }
+                } else {
+                    Log.i("TAG", "Error:" + task.getException());
+                }
+            }
+        });
+    }
+
+
+
+
+
     //обращенияк БД
     //метод для выгрузки сообщений из БД
 //    private void listenMessages(){

@@ -48,7 +48,7 @@ public class MainActivityForEmployee extends AppCompatActivity {
             //метод загрузки и отображения фрагмента
             private void loadFragment(Fragment fragment){
                 FragmentTransaction fragmentTransaction=getSupportFragmentManager().beginTransaction();
-                fragmentTransaction.replace(R.id.containers,fragment).addToBackStack(null).commit();
+                fragmentTransaction.replace(R.id.containers,fragment).commit();
 
             }
         };

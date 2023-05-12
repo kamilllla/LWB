@@ -1,9 +1,11 @@
 package com.example.lwb.fragments;
 
 import android.content.Context;
+import android.os.Build;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -12,6 +14,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.example.lwb.Constants;
 import com.example.lwb.Event;
@@ -26,7 +29,13 @@ import com.google.firebase.firestore.QuerySnapshot;
 
 import androidx.fragment.app.DialogFragment;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 
@@ -53,6 +62,7 @@ public class EventListFragment extends Fragment {
         fragment.setArguments(args);
         return fragment;
     }
+
     public interface EventListFragmentInterface{
         void showDialogFragment(Event event);
     }
@@ -84,13 +94,24 @@ public class EventListFragment extends Fragment {
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         if (task.isSuccessful()) {
+                            try {
 
-                            for (QueryDocumentSnapshot document1 : task.getResult()) {
-                                events.add(new Event(document1.getString("name"), document1.getString("description"), document1.getString("time"), document1.getString("date"), document1.getString("place"), Integer.parseInt(document1.getString("countOfPlaces"))));
-                                Log.e("EventListFrag",document1.getString("countOfPlaces") );
-                                EventListAdapter adapter=new EventListAdapter(events, getContext(), eventListInterface);
-                                recyclerView.setAdapter(adapter);
-                                recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+                                for (QueryDocumentSnapshot document1 : task.getResult()) {
+
+
+
+                                      Date dateOfEvent=getDateFromStrings(document1.getString("time"),document1.getString("date"));
+                                      if (checkRelevanceOfTime(dateOfEvent)) {
+                                          events.add(new Event(document1.getString("name"), document1.getString("description"), document1.getString("time"), document1.getString("date"), document1.getString("place"), Integer.parseInt(document1.getString("countOfPlaces"))));
+                                          EventListAdapter adapter = new EventListAdapter(events, getContext(), eventListInterface);
+                                          recyclerView.setAdapter(adapter);
+                                          recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+                                      }
+                                }
+                            }
+                            catch (Exception e){
+                                Toast.makeText(getContext(),getString(R.string.error_unload_events),Toast.LENGTH_LONG ).show();
+
                             }
                         }
 
@@ -108,5 +129,25 @@ public class EventListFragment extends Fragment {
             eventListFragmentInterface = (EventListFragment.EventListFragmentInterface) context;
         }
 
+    }
+
+    private boolean checkRelevanceOfTime(Date dateOfEvent) {
+
+        if (dateOfEvent.before(new Date()))
+            return false;
+        else return true;
+    }
+
+    private Date getDateFromStrings(String time, String date){
+        SimpleDateFormat format = new SimpleDateFormat();
+        format.applyPattern("dd.MM.yyyy HH:mm");
+        Date docDate= null;
+        String s=date+" "+time;
+        try {
+            docDate = format.parse(s);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return docDate;
     }
 }

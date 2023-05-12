@@ -8,27 +8,39 @@ import androidx.annotation.Nullable;
 import androidx.core.content.res.ResourcesCompat;
 import androidx.fragment.app.Fragment;
 
+import android.text.format.DateUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.events.calendar.views.EventsCalendar;
+import com.example.lwb.Constants;
+import com.example.lwb.Event;
 import com.example.lwb.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 
 
 public class CalendarFragment extends Fragment implements EventsCalendar.Callback {
     EventsCalendar eventsCalendar;
+
+    FirebaseFirestore db = FirebaseFirestore.getInstance();
     CalendarFragment.CalendarFragmentInterface calendarFragmentInterface;
 
 
@@ -77,23 +89,32 @@ public class CalendarFragment extends Fragment implements EventsCalendar.Callbac
         add_events();
         return view;
     }
-
+    
     @Override
     public void onDayLongPressed(@Nullable Calendar calendar) {
+        eventsCalendar.getCurrentSelectedDate();
+        if (eventsCalendar.hasEvent(eventsCalendar.getCurrentSelectedDate()) && (eventsCalendar.getCurrentSelectedDate().after(Calendar.getInstance()) || DateUtils.isToday(eventsCalendar.getCurrentSelectedDate().getTimeInMillis()))) {
+            String date = new SimpleDateFormat("dd.MM.yyyy").format(eventsCalendar.getCurrentSelectedDate().getTimeInMillis());
+            db.collection(Constants.COLLECTION_EVENTS).document(date).collection(date).addSnapshotListener(eventListener);
+        }
+        else {
+            Toast.makeText(getContext(), getText(R.string.alert_inaccessibility_events), Toast.LENGTH_LONG).show();
+        }
+
+
 
     }
 
     @Override
     public void onDaySelected(@Nullable Calendar calendar) {
         eventsCalendar.getCurrentSelectedDate();
-        if (eventsCalendar.hasEvent(eventsCalendar.getCurrentSelectedDate())) {
+        if (eventsCalendar.hasEvent(eventsCalendar.getCurrentSelectedDate()) && (eventsCalendar.getCurrentSelectedDate().after(Calendar.getInstance()) || DateUtils.isToday(eventsCalendar.getCurrentSelectedDate().getTimeInMillis()))) {
             String date = new SimpleDateFormat("dd.MM.yyyy").format(eventsCalendar.getCurrentSelectedDate().getTimeInMillis());
-            calendarFragmentInterface.toEventListFragment(date);
-
-            Log.e("DAY", "true - " + date);
-
-        } else
-            Log.e("DAY", "false");
+            db.collection(Constants.COLLECTION_EVENTS).document(date).collection(date).addSnapshotListener(eventListener);
+        }
+        else {
+            Toast.makeText(getContext(), getText(R.string.alert_inaccessibility_events), Toast.LENGTH_LONG).show();
+        }
 
     }
 
@@ -111,15 +132,13 @@ public class CalendarFragment extends Fragment implements EventsCalendar.Callbac
 
     }
 
-    public void add_events() {
+    private void add_events() {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         db.collection("events").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                 if (task.isSuccessful()) {
                     for (QueryDocumentSnapshot document : task.getResult()) {
-
-                        //document.getId().toString() document.get("по").toString();
                         Calendar calendar = Calendar.getInstance();
                         SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy", Locale.ENGLISH);
                         try {
@@ -130,12 +149,76 @@ public class CalendarFragment extends Fragment implements EventsCalendar.Callbac
                         eventsCalendar.addEvent(calendar);
                         eventsCalendar.build();
                         Log.e("TAG", "Added event");
-
                     }
                 } else {
                     Log.e("TAG", "ERROR ERROR ERrOOOR WE HAVE PROBLEMS");
+                    Toast.makeText(getContext(), getText(R.string.error_unload_events), Toast.LENGTH_LONG).show();
+
                 }
             }
         });
     }
+
+
+
+    EventListener eventListener=new EventListener<QuerySnapshot>() {
+        @Override
+        public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
+
+           if (!value.isEmpty()) {
+               List<Event> eventListOfDay=new ArrayList<>();
+               try {
+                   for (DocumentSnapshot document1 : value.getDocuments()) {
+                       Date dateOfEvent=getDateFromStrings(document1.getString("time"),document1.getString("date"));
+                       if (checkRelevanceOfTime(dateOfEvent)) {
+                           eventListOfDay.add(new Event(document1.getString("name"), document1.getString("description"), document1.getString("time"), document1.getString("date"), document1.getString("place"), Integer.parseInt(document1.getString("countOfPlaces"))));
+                       }
+                   }
+                   if (eventListOfDay.size()>0) {
+
+                       String date = new SimpleDateFormat("dd.MM.yyyy").format(eventsCalendar.getCurrentSelectedDate().getTimeInMillis());
+                       calendarFragmentInterface.toEventListFragment(date);
+                       Log.e("TAG", " NOT EMpTYl ist");
+                   }
+                   else {
+                       Log.e("TAG", "EMpTYl ist");
+                       Toast.makeText(getContext(), getText(R.string.alert_inaccessibility_events), Toast.LENGTH_LONG).show();
+
+                   }
+               }
+               catch (Exception e){
+                   Toast.makeText(getContext(),getString(R.string.error_unload_events),Toast.LENGTH_LONG ).show();
+               }
+           }
+           else{
+               if (error!=null){
+                   Toast.makeText(getContext(),error.toString(),Toast.LENGTH_LONG ).show();
+               }
+               else Toast.makeText(getContext(),getString(R.string.error_unload_events),Toast.LENGTH_LONG ).show();
+           }
+        }
+   };
+
+
+    private boolean checkRelevanceOfTime(Date dateOfEvent) {
+
+        if (dateOfEvent.before(new Date()))
+            return false;
+        else return true;
+    }
+
+    private Date getDateFromStrings(String time, String date){
+        SimpleDateFormat format = new SimpleDateFormat();
+        format.applyPattern("dd.MM.yyyy HH:mm");
+        Date docDate= null;
+        String s=date+" "+time;
+        try {
+            docDate = format.parse(s);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return docDate;
+    }
+
+
 }

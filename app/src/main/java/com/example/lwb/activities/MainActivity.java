@@ -45,22 +45,7 @@ public class MainActivity extends AppCompatActivity implements CalendarFragment.
                     intent.putExtra(Constants.USER, receiver);
                     intent.putExtra(Constants.FLAG, true);
                     startActivity(intent);
-//                    FirebaseFirestore fb=FirebaseFirestore.getInstance();
-//                    fb.collection(Constants.COLLECTION_ADMIN).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-//                        @Override
-//                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
-//                            if (task.isSuccessful()) {
-//                                for (QueryDocumentSnapshot document : task.getResult()) {
-//                                    receiver.name = document.getId();
-//
-//                                }
-//                                Intent intent=new Intent (MainActivity.this, ChatActivity.class);
-//                                Log.d("REC", receiver.name);
-//                                intent.putExtra(Constants.USER, receiver);
-//                                startActivity(intent);
-//                            }
-//                        }
-//                    });
+                    return true;
                 case R.id.event:
                     CalendarFragment fragment=new CalendarFragment();
                     loadFragment(fragment);

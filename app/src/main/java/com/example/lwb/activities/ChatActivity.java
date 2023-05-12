@@ -208,10 +208,10 @@ public class ChatActivity extends AppCompatActivity {
                 .whereEqualTo(Constants.CHAT_SENDER, senderId)
                 .whereEqualTo(Constants.CHAT_RECEIVER,receiverId)
                 .get()
-                .addOnCompleteListener(conversationOnCOmpleteListener);
+                .addOnCompleteListener(conversationOnCompleteListener);
     }
 
-    private final OnCompleteListener<QuerySnapshot> conversationOnCOmpleteListener=task -> {
+    private final OnCompleteListener<QuerySnapshot> conversationOnCompleteListener=task -> {
         if (task.isSuccessful() && task.getResult()!=null && task.getResult().getDocuments().size()>0){
             DocumentSnapshot documentSnapshot=task.getResult().getDocuments().get(0);
             conversationId=documentSnapshot.getId();

@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
@@ -18,6 +19,8 @@ import android.widget.Toast;
 
 import com.example.lwb.Constants;
 import com.example.lwb.R;
+import com.example.lwb.VerificationAndValidation;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
@@ -47,7 +50,9 @@ public class AuthorizationFragment extends Fragment {
     //нужный фрагменту интерфейс
     public interface AuthorizationFragmentInterface {
         void toRegistrationFragmnet();
+
         void toMainActivity();
+
         void toAuthEmployee();
     }
 
@@ -63,76 +68,10 @@ public class AuthorizationFragment extends Fragment {
         textPassword = view.findViewById(R.id.textInputPassword);
         textInputLayoutLogin = view.findViewById(R.id.outlinedTextField2);
         textInputLayoutPassword = view.findViewById(R.id.outlinedTextField3);
-        textViewToFragment=view.findViewById(R.id.textAuthEmployee);
+        textViewToFragment = view.findViewById(R.id.textAuthEmployee);
 
-        signUp.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                authorizationFragmentInterface.toRegistrationFragmnet();
-            }
-        });
-
-        signIn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                textInputLayoutPassword.setError(null);
-                textInputLayoutLogin.setError(null);
-                login= String.valueOf(textInputEditLogin.getText());
-                password=String.valueOf(textPassword.getText());
-                if (textInputEditLogin.getText().length() == 0 || textPassword.getText().length() == 0) {
-
-                    if (textInputEditLogin.getText().length() == 0 && textPassword.getText().length() == 0) {
-                        textInputLayoutPassword.setError("Введите пароль");
-                        textInputLayoutLogin.setError("Введите логин");
-                    }
-                    else {
-                        if (textInputEditLogin.getText().length() == 0) {
-                            textInputLayoutLogin.setError("Введите логин");
-                        } else {
-                            textInputLayoutPassword.setError("Введите пароль");
-                        }
-                    }
-                }
-                else {
-                    FirebaseFirestore db = FirebaseFirestore.getInstance();
-                    DocumentReference docRef = db.collection(Constants.COLLECTION_USERS).document(login);
-                    docRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-                        @Override
-                        public void onSuccess(DocumentSnapshot documentSnapshot) {
-                            if (documentSnapshot.get("login")!=null){
-                                StringBuilder hash= new StringBuilder();
-                                MessageDigest messageDigest= null;
-                                try {
-                                    messageDigest = MessageDigest.getInstance("SHA-1");
-                                } catch (NoSuchAlgorithmException e) {
-                                    e.printStackTrace();
-                                }
-                                byte[] bytes=messageDigest.digest(password.getBytes());
-                                for (byte b: bytes){
-                                    hash.append(String.format("%02X",b));
-                                }
-                                if (String.valueOf(hash).equals(documentSnapshot.get("password"))) {
-                                    SharedPreferences sharedPreferences= getContext().getSharedPreferences("settings", Context.MODE_PRIVATE);
-                                    sharedPreferences.edit().putString("login", login).apply();
-                                    authorizationFragmentInterface.toMainActivity();
-                                }
-                                else {
-                                    Toast.makeText(getContext(),"Неверный пароль",Toast.LENGTH_LONG).show();
-                                }
-                            }
-                            else
-                            {
-                                Toast.makeText(getContext(), "Такого пользователя не существеут", Toast.LENGTH_LONG).show();
-                            }
-
-                        }
-                    });
-//
-                    //firstFragmentInterface.toMainActivity();
-                }
-
-            }
-        });
+        signUp.setOnClickListener(clickListener);
+        signIn.setOnClickListener(clickListener);
         textViewToFragment.setOnClickListener(new View.OnClickListener() {
             @SuppressLint("ResourceAsColor")
             @Override
@@ -150,8 +89,71 @@ public class AuthorizationFragment extends Fragment {
     public void onAttach(Context context) {
         super.onAttach(context);
         if (context instanceof AuthorizationFragmentInterface) {
-           authorizationFragmentInterface = (AuthorizationFragmentInterface) context;
+            authorizationFragmentInterface = (AuthorizationFragmentInterface) context;
         }
 
     }
+
+    //слушатель нажатия
+    View.OnClickListener clickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            switch (v.getId()) {
+//обработка события при авториазции
+                case R.id.buttonIn:
+                    textInputLayoutPassword.setError(null);
+                    textInputLayoutLogin.setError(null);
+                    login = String.valueOf(textInputEditLogin.getText()).replaceAll("\\s+", "");
+                    password = String.valueOf(textPassword.getText()).replaceAll("\\s+", "");
+                    if (login.isEmpty() || password.isEmpty()) {
+
+                        if (login.isEmpty() && password.isEmpty()) {
+                            textInputLayoutPassword.setError("Введите пароль");
+                            textInputLayoutLogin.setError("Введите логин");
+                        } else {
+                            if (login.isEmpty())
+                                textInputLayoutLogin.setError("Введите логин");
+                            else
+                                textInputLayoutPassword.setError("Введите пароль");
+                        }
+                    }
+                    else {
+                        //обращение к БД
+                        FirebaseFirestore db = FirebaseFirestore.getInstance();
+                        DocumentReference docRef = db.collection(Constants.COLLECTION_USERS).document(login);
+                        docRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                            @Override
+                            public void onSuccess(DocumentSnapshot documentSnapshot) {
+                                if (documentSnapshot.get("login") != null) {
+                                    StringBuilder hash = VerificationAndValidation.getPassword(password);
+                                    if (String.valueOf(hash).equals(documentSnapshot.get("password"))) {
+                                        SharedPreferences sharedPreferences = getContext().getSharedPreferences(Constants.SHARED_PREFERENCES, Context.MODE_PRIVATE);
+                                        sharedPreferences.edit().putString(Constants.USER_NAME, login).apply();
+                                        authorizationFragmentInterface.toMainActivity();
+                                    } else
+                                        Toast.makeText(getContext(), "Неверный пароль", Toast.LENGTH_LONG).show();
+                                } else {
+                                    Toast.makeText(getContext(), "Такого пользователя не существеут", Toast.LENGTH_LONG).show();
+                                }
+
+                            }
+                        })
+                        .addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                Toast.makeText(getContext(), "Произошла ошибка, проверьте подключение к Интернету и попробуйте зановао!", Toast.LENGTH_LONG).show();
+
+                            }
+                        });
+                    }
+                    break;
+                //обработка события при регистрации
+                case R.id.buttonUp:
+                    authorizationFragmentInterface.toRegistrationFragmnet();
+                    break;
+
+
+            }
+        }
+    };
 }

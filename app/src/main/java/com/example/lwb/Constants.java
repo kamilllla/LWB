@@ -7,6 +7,7 @@ public class Constants {
     public static final String COLLECTION_LECTURES="Видеогиды";
     public static final String SHARED_PREFERENCES="settings";
     public static final String USER_NAME="login";
+    public static final String USER_NUMBER="number";
     public static final String USER_TOKEN="токен";
     public static final String USER_PASSWORD="password";
     public static final String USER="user";

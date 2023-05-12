@@ -23,11 +23,13 @@ import com.example.lwb.Event;
 import com.example.lwb.JavaMailAPI;
 import com.example.lwb.Models.Booking;
 import com.example.lwb.R;
+import com.example.lwb.VerificationAndValidation;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
@@ -42,6 +44,14 @@ public class RegistrationDialogFragment extends DialogFragment {
     TextInputEditText surnameEditText;
     TextInputEditText patronomycEditText;
     TextInputEditText numberEditText;
+    TextInputLayout nameInputLayout;
+    TextInputLayout surnameInputLayout;
+    TextInputLayout patronomycInputLayout;
+    TextInputLayout numberInputLayout;
+    TextInputLayout mailInputLayout;
+
+
+
     FirebaseFirestore db=FirebaseFirestore.getInstance();
     NumberPicker numberPicker;
     Bundle arguments;
@@ -102,6 +112,12 @@ public class RegistrationDialogFragment extends DialogFragment {
         surnameEditText=view.findViewById(R.id.textInputSurname);
         patronomycEditText=view.findViewById(R.id.textInputPatronomyc);
         numberEditText=view.findViewById(R.id.textInputNumber);
+
+        nameInputLayout=view.findViewById(R.id.outlinedLogin);
+        patronomycInputLayout=view.findViewById(R.id.outlinedPatronomyc);
+        surnameInputLayout=view.findViewById(R.id.outlinedSurname);
+        numberInputLayout=view.findViewById(R.id.outlinedNumber);
+        mailInputLayout=view.findViewById(R.id.outlinedMail);
         checkAvailability(arguments.getInt(ARG_COUNT));
         customizeNumberPicker(arguments.getInt(ARG_COUNT));
         bookButton.setOnClickListener(buttonClick);
@@ -119,15 +135,16 @@ public class RegistrationDialogFragment extends DialogFragment {
             }
             if(view.getId()==R.id.buttonBook)
             {   arguments=getArguments();
-                Booking booking=createBooking(); //создание заказа
-                //создание письма
-                javaMailAPI=new JavaMailAPI(getContext(), mailEditText.getText().toString(), Constants.THEME_OF_EMAIL, getActivity().getResources().getString(R.string.text_of_letter, arguments.getString(ARG_NAME),arguments.getString(ARG_DATE),arguments.getString(ARG_TIME),arguments.getString(ARG_PLACE), booking.getCountOfPlaces()));
-                //формирование новой записи в БД о бронировании и отправка письма
-                bookingFormation(arguments.getString(ARG_DATE),arguments.getString(ARG_TIME), booking);
-                updateInformationDb(String.valueOf(calculationCountOfPlace(arguments.getInt(ARG_COUNT), Integer.valueOf(booking.getCountOfPlaces()))));
-                registrationDialogInterface.updateEventList(arguments.getString(ARG_DATE));
-
-                dismiss();
+                if (checkTheFields()) {
+                    Booking booking = createBooking(); //создание заказа
+                    //создание письма
+                    javaMailAPI = new JavaMailAPI(getContext(), mailEditText.getText().toString(), Constants.THEME_OF_EMAIL, getActivity().getResources().getString(R.string.text_of_letter, arguments.getString(ARG_NAME), arguments.getString(ARG_DATE), arguments.getString(ARG_TIME), arguments.getString(ARG_PLACE), booking.getCountOfPlaces()));
+                    //формирование новой записи в БД о бронировании и отправка письма
+                    bookingFormation(arguments.getString(ARG_DATE), arguments.getString(ARG_TIME), booking);
+                    updateInformationDb(String.valueOf(calculationCountOfPlace(arguments.getInt(ARG_COUNT), Integer.valueOf(booking.getCountOfPlaces()))));
+                    registrationDialogInterface.updateEventList(arguments.getString(ARG_DATE));
+                    dismiss();
+                }
                 return;
             }
         }
@@ -143,14 +160,78 @@ public class RegistrationDialogFragment extends DialogFragment {
     //метод создания экземпляра класса брониования
     private Booking createBooking()
     {
-        name=nameEditText.getText().toString();
-        surname=surnameEditText.getText().toString();
-        patronomyc=patronomycEditText.getText().toString();
-        number=numberEditText.getText().toString();
+        name=nameEditText.getText().toString().trim();
+        surname=surnameEditText.getText().toString().trim();
+        patronomyc=patronomycEditText.getText().toString().trim();
+        number=numberEditText.getText().toString().replaceAll("\\s+", "");
         count=numberPicker.getValue();
-        email=mailEditText.getText().toString();
+        email=mailEditText.getText().toString().trim();
         Booking booking=new Booking(name, surname, patronomyc, number, email, count);
         return booking;
+    }
+
+    private boolean checkTheFields() {
+        nameInputLayout.setError(null);
+        surnameInputLayout.setError(null);
+        patronomycInputLayout.setError(null);
+        mailInputLayout.setError(null);
+        numberInputLayout.setError(null);
+
+        name = nameEditText.getText().toString().trim();
+        surname = surnameEditText.getText().toString().trim();
+        patronomyc = patronomycEditText.getText().toString().trim();
+        number = numberEditText.getText().toString().replaceAll("\\s+", "");
+        count = numberPicker.getValue();
+        email = mailEditText.getText().toString();
+        if (name.isEmpty() || surname.isEmpty() || patronomyc.isEmpty() || number.isEmpty() || email.isEmpty()) {
+
+            if (name.isEmpty() && surname.isEmpty() && patronomyc.isEmpty() && number.isEmpty() && email.isEmpty()) {
+                nameInputLayout.setError("Введите имя");
+                surnameInputLayout.setError("Введите фамилию");
+                patronomycInputLayout.setError("Введите отчество");
+                mailInputLayout.setError("Введите электронную почту");
+                numberInputLayout.setError("Введите номер телефона");
+                return false;
+            }
+            else {
+                if (name.isEmpty())
+                    nameInputLayout.setError("Введите имя");
+                if (surname.isEmpty())
+                    surnameInputLayout.setError("Введите фамилию");
+                if (patronomyc.isEmpty())
+                    patronomycInputLayout.setError("Введите отчество");
+                if (number.isEmpty())
+                    numberInputLayout.setError("Введите номер телефона");
+                if (email.isEmpty())
+                    mailInputLayout.setError("Введите электронную почту");
+                return false;
+            }
+        }
+        else {
+            if (VerificationAndValidation.checkNumberIncorrect(number)){
+                numberInputLayout.setError("Формат телефона должен быть:+7/8(9xx) xxx-xx-xx(знаки (,),-могут быть опущены)");
+                return false;
+            }
+            if (VerificationAndValidation.checkEmailIncorrect(email)){
+                mailInputLayout.setError("Почта может включать латинские буквы (A-Z,a-z), цифры и знаки (.-_);" +
+                        " знаки не могут идти подряд, начинаться почта может только с букв или цифр");
+                return false;
+            }
+            if (VerificationAndValidation.checkFIOIncorrect(name)){
+                nameInputLayout.setError("Имя может сожержать либо латинские буквы, либо кириллицу, без пробелов");
+                return false;
+            }
+            if (VerificationAndValidation.checkFIOIncorrect(surname)){
+                surnameInputLayout.setError("Фамилия может сожержать либо латинские буквы, либо кириллицу, без пробелов");
+                return false;
+            }
+            if (VerificationAndValidation.checkFIOIncorrect(patronomyc)){
+                patronomycInputLayout.setError("Отчество может сожержать либо латинские буквы, либо кириллицу, без пробелов");
+                return false;
+            }
+            return true;
+
+        }
     }
     //рассчет количества мест
     private int calculationCountOfPlace(int countAmount, int numberOfBooked){

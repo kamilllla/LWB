@@ -16,6 +16,7 @@ import android.widget.Toast;
 
 import com.example.lwb.Constants;
 import com.example.lwb.R;
+import com.example.lwb.VerificationAndValidation;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.textfield.TextInputEditText;
@@ -36,7 +37,7 @@ public class AuthorizationEmployeeFragment extends Fragment {
     private TextInputLayout textInputLayoutLogin;
     private TextInputLayout textInputLayoutPassword;
 
-    String mail;
+    String login;
     String password;
 
 
@@ -68,56 +69,6 @@ public class AuthorizationEmployeeFragment extends Fragment {
         return view;
     }
 
-//метод авторизации
-    void signIn(String mail, String password) {
-        //подключение к бд, обращение к коллекции "Администратор"
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
-       db.collection(Constants.COLLECTION_ADMIN).document(mail).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-            @Override
-            public void onSuccess(DocumentSnapshot documentSnapshot) {
-               if (documentSnapshot.get(Constants.USER_NAME) !=null){
-                    StringBuilder hash= new StringBuilder();
-                    MessageDigest messageDigest= null;
-                    //хэширование пароля
-                    try {
-                        messageDigest = MessageDigest.getInstance("SHA-256");
-                    } catch (NoSuchAlgorithmException e) {
-                        e.printStackTrace();
-                    }
-                    byte[] bytes=messageDigest.digest(password.getBytes());
-                    for (byte b: bytes){
-                        hash.append(String.format("%02X",b));
-                    }
-                    //проверка совпадения логгина и пароля в бд
-                    if (String.valueOf(hash).equals(documentSnapshot.get(Constants.USER_PASSWORD).toString())) {
-                        SharedPreferences sharedPreferences= getContext().getSharedPreferences(Constants.SHARED_PREFERENCES, Context.MODE_PRIVATE);
-                        sharedPreferences.edit().putString(Constants.USER_NAME, Constants.COLLECTION_ADMIN).apply();
-                        //sharedPreferences.edit().putString(Constants.EMPLOYEE_DISPLAY_NAME, Constants.COLLECTION_ADMIN).apply();
-                        authorizationEmployeeFragmentInterface.toMainActivityEmployees();
-                    }
-                    else {
-                        Toast.makeText(getContext(),"Неверный пароль",Toast.LENGTH_LONG).show();
-                    }
-                }
-                else
-                {
-                    Toast.makeText(getContext(), "Такого пользователя не существеут", Toast.LENGTH_LONG).show();
-                }
-
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                Toast.makeText(getContext(), "Произошла ошибка, проверьте подключение к Интернету и попробуйте зановао!", Toast.LENGTH_LONG).show();
-
-            }
-        });
-    }
-
-
-
-
-
     //ЖЦ выполняется когда фрагмент подсоединяется к активности
     @Override
     public void onAttach(Context context) {
@@ -141,23 +92,62 @@ public class AuthorizationEmployeeFragment extends Fragment {
         public void onClick(View v) {
             textInputLayoutPassword.setError(null);
             textInputLayoutLogin.setError(null);
-            mail = String.valueOf(textInputEditLogin.getText());
-            password = String.valueOf(textPassword.getText());
-            if (textInputEditLogin.getText().length() == 0 || textPassword.getText().length() == 0) {
+            login = String.valueOf(textInputEditLogin.getText()).replaceAll("\\s+", "");
+            password = String.valueOf(textPassword.getText()).replaceAll("\\s+", "");
+            if (login.isEmpty() || password.isEmpty()) {
 
-                if (textInputEditLogin.getText().length() == 0 && textPassword.getText().length() == 0) {
+                if (login.isEmpty() && password.isEmpty()) {
                     textInputLayoutPassword.setError("Введите пароль");
                     textInputLayoutLogin.setError("Введите логин");
-                } else {
-                    if (textInputEditLogin.getText().length() == 0) {
-                        textInputLayoutLogin.setError("Введите логин");
-                    } else {
-                        textInputLayoutPassword.setError("Введите пароль");
-                    }
                 }
-            } else {
-                signIn(mail, password);
+                else {
+                    if (login.isEmpty())
+                        textInputLayoutLogin.setError("Введите логин");
+                    else
+                        textInputLayoutPassword.setError("Введите пароль");
+                }
+            }
+            else {
+                signIn(login, password);
             }
         }
     };
+
+    //метод авторизации
+    void signIn(String mail, String password) {
+        //подключение к бд, обращение к коллекции "Администратор"
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        db.collection(Constants.COLLECTION_ADMIN).document(mail).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+            @Override
+            public void onSuccess(DocumentSnapshot documentSnapshot) {
+                if (documentSnapshot.get(Constants.USER_NAME) !=null){
+                    StringBuilder hash= VerificationAndValidation.getPassword(password);
+                    //проверка совпадения логгина и пароля в бд
+                    if (String.valueOf(hash).equals(documentSnapshot.get(Constants.USER_PASSWORD).toString())) {
+                        SharedPreferences sharedPreferences= getContext().getSharedPreferences(Constants.SHARED_PREFERENCES, Context.MODE_PRIVATE);
+                        sharedPreferences.edit().putString(Constants.USER_NAME, Constants.COLLECTION_ADMIN).apply();
+                        authorizationEmployeeFragmentInterface.toMainActivityEmployees();
+                    }
+                    else
+                        Toast.makeText(getContext(),"Неверный пароль",Toast.LENGTH_LONG).show();
+
+                }
+                else
+                {
+                    Toast.makeText(getContext(), "Такого пользователя не существеут", Toast.LENGTH_LONG).show();
+                }
+
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Toast.makeText(getContext(), "Произошла ошибка, проверьте подключение к Интернету и попробуйте зановао!", Toast.LENGTH_LONG).show();
+
+            }
+        });
+    }
+
+
+
+
 }

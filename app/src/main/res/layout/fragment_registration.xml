@@ -10,19 +10,19 @@
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/outlinedLogin"
-        style="@style/TextField"
+        app:boxStrokeColor="@color/greyLight"
+        app:shapeAppearanceOverlay="@style/ShapeOfTextField"
         android:layout_width="325dp"
         android:layout_gravity="center"
         android:layout_height="wrap_content"
-        android:layout_marginTop="110dp"
-        android:layout_marginEnd="8dp"
+        style="@style/TextField"
         android:hint="@string/login">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/textInputLogin"
-            android:layout_height="match_parent"
+            style="@style/EditText"
             android:layout_width="match_parent"
-            style="@style/ThemeOverlay.Material3.TextInputEditText.OutlinedBox"/>
+            android:layout_height="match_parent" />
     </com.google.android.material.textfield.TextInputLayout>
 
 
@@ -30,10 +30,11 @@
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/outlinedPassword"
         style="@style/TextField"
+        app:shapeAppearanceOverlay="@style/ShapeOfTextField"
         android:layout_gravity="center"
         android:layout_width="325dp"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
+        app:hintTextColor="@color/black"
         android:hint="@string/password"
         app:endIconMode="password_toggle"
         >
@@ -42,13 +43,17 @@
             android:id="@+id/textInputPassword"
             style="@style/EditText" />
     </com.google.android.material.textfield.TextInputLayout>
+
+
+
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/outlinedPassword2"
         style="@style/TextField"
+        app:shapeAppearanceOverlay="@style/ShapeOfTextField"
         android:layout_gravity="center"
         android:layout_width="325dp"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
+        app:hintTextColor="@color/black"
         android:hint="@string/repassword"
         app:endIconMode="password_toggle"
         >
@@ -61,16 +66,19 @@
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/outlinedNumber"
         style="@style/TextField"
+        app:shapeAppearanceOverlay="@style/ShapeOfTextField"
         android:layout_gravity="center"
         android:layout_width="325dp"
         android:layout_height="wrap_content"
+        app:hintTextColor="@color/black"
         android:hint="@string/phone"
 
         >
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/textInputNumber"
-            style="@style/EditText" />
+            style="@style/EditText"
+            android:inputType="phone"/>
     </com.google.android.material.textfield.TextInputLayout>
 
 

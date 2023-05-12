@@ -15,7 +15,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
+import com.example.lwb.Constants;
 import com.example.lwb.R;
+import com.example.lwb.VerificationAndValidation;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
@@ -45,8 +47,9 @@ public class RegistrationFragment extends Fragment {
     private TextInputLayout textInputLayoutPassword2;
     String login;
     String password;
-    String password2;
+    String repeatedPassword;
     String number;
+    FirebaseFirestore db = FirebaseFirestore.getInstance();
 
 
     Map<String, Object> user=new HashMap<>();
@@ -75,90 +78,9 @@ public class RegistrationFragment extends Fragment {
         textInputLayoutPassword = view.findViewById(R.id.outlinedPassword);
         textInputLayoutNumber = view.findViewById(R.id.outlinedNumber);
         textInputLayoutPassword2 = view.findViewById(R.id.outlinedPassword2);
-
-
-        View.OnClickListener clickOnButton = new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent;
-                switch (v.getId()) {
-                    case R.id.buttonUp:
-                        FirebaseFirestore db = FirebaseFirestore.getInstance();
-                        if (textLogin.getText().length() == 0 || textPassword.getText().length() == 0 || textPassword2.getText().length() == 0 || textNumber.getText().length() == 0) {
-                            if (textLogin.getText().length() ==0  && textPassword.getText().length() == 0 && textPassword2.getText().length() == 0 && textNumber.getText().length() == 0) {
-
-                                textInputLayoutPassword.setError("Введите пароль");
-                                textInputLayoutLogin.setError("Введите логин");
-                                textInputLayoutPassword2.setError("Введите пароль еще раз");
-                                textInputLayoutNumber.setError("Введите номер телефона");
-                            }
-                            else {
-                                textInputLayoutPassword.setError("Введите пароль");
-                                textInputLayoutLogin.setError("Введите логин");
-                                textInputLayoutPassword2.setError("Введите пароль еще раз");
-                                textInputLayoutNumber.setError("Введите номер телефона");
-                            }
-                        }
-                        else {
-
-                            login = textLogin.getText().toString();
-                            password = textPassword.getText().toString();
-                            password2 = textPassword2.getText().toString();
-                            number = textNumber.getText().toString();
-                            if (password.equals(password2)) {
-                                DocumentReference docRef = db.collection("Пользователи").document(login);
-                                docRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-                                    @Override
-                                    public void onSuccess(DocumentSnapshot documentSnapshot) {
-                                        if (documentSnapshot.get("login") != null) {
-                                            textInputLayoutLogin.setError("Такой пользователь существует");
-                                        } else {
-                                            StringBuilder hash= new StringBuilder();
-                                            MessageDigest messageDigest= null;
-                                            try {
-                                                messageDigest = MessageDigest.getInstance("SHA-1");
-                                            } catch (NoSuchAlgorithmException e) {
-                                                e.printStackTrace();
-                                            }
-                                            byte[] bytes=messageDigest.digest(password.getBytes());
-                                            for (byte b: bytes){
-                                                hash.append(String.format("%02X",b));
-
-                                            }
-                                            user.put("login", login);
-                                            user.put("password", String.valueOf(hash));
-                                            user.put("number", number);
-                                            db.collection("Пользователи").document(login).set(user).addOnCompleteListener(new OnCompleteListener<Void>() {
-                                                @Override
-                                                public void onComplete(@NonNull Task<Void> task) {
-                                                    if (task.isSuccessful()) {
-                                                        Log.d("ADD", "successful add");
-                                                        SharedPreferences sharedPreferences= getContext().getSharedPreferences("settings", Context.MODE_PRIVATE);
-                                                        sharedPreferences.edit().putString("login", login).apply();
-                                                        secondFragmentInterface.toActivity();
-                                                    }
-                                                }
-                                            });
-                                        }
-                                    }
-                                });
-                            } else {
-                                textInputLayoutPassword.setError("Пароли не совпадают");
-                            }
-                        }
-                        break;
-
-                    case R.id.buttonCancel:
-                        secondFragmentInterface.toFirstFragment();
-                        break;
-                }
-            }
-
-        };
-
-
         buttonSignCancel.setOnClickListener(clickOnButton);
         buttonSignUp.setOnClickListener(clickOnButton);
+
 
         return view;
     }
@@ -172,6 +94,92 @@ public class RegistrationFragment extends Fragment {
         }
 
     }
+
+
+    //cлушатель события нажатия
+    View.OnClickListener clickOnButton = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            textInputLayoutPassword.setError(null);
+            textInputLayoutLogin.setError(null);
+            textInputLayoutPassword2.setError(null);
+            textInputLayoutNumber.setError(null);
+
+            login=String.valueOf(textLogin.getText()).replaceAll("\\s+", "");
+            password=String.valueOf(textPassword.getText()).replaceAll("\\s+", "");
+            repeatedPassword=String.valueOf(textPassword2.getText()).replaceAll("\\s+", "");
+            number=String.valueOf(textNumber.getText()).replaceAll("\\s+", "");
+
+            switch (v.getId()) {
+                case R.id.buttonUp:
+
+                    if (login.isEmpty() || password.isEmpty() || repeatedPassword.isEmpty() || number.isEmpty()) {
+
+                        if (login.isEmpty() && password.isEmpty()  && repeatedPassword.isEmpty() && number.isEmpty()) {
+
+                            textInputLayoutPassword.setError("Введите пароль");
+                            textInputLayoutLogin.setError("Введите логин");
+                            textInputLayoutPassword2.setError("Введите пароль еще раз");
+                            textInputLayoutNumber.setError("Введите номер телефона");
+                        }
+                        else {
+                            if (password.isEmpty())
+                                textInputLayoutPassword.setError("Введите пароль");
+                            if (login.isEmpty())
+                                textInputLayoutLogin.setError("Введите логин");
+                            if (repeatedPassword.isEmpty())
+                                textInputLayoutPassword2.setError("Введите пароль еще раз");
+                            if (number.isEmpty())
+                                textInputLayoutNumber.setError("Введите номер телефона");
+                        }
+                    }
+                    else {
+
+
+                        if (!password.equals(repeatedPassword)) {
+                            textInputLayoutPassword.setError("Пароли не совпадают");
+                            return;
+                        }
+                        if (VerificationAndValidation.checkNumberIncorrect(number)){
+                            textInputLayoutNumber.setError("Формат телефона должен быть:+7/8(9xx) xxx-xx-xx(знаки (,),-могут быть опущены)");
+                            return;
+                        }
+
+                            DocumentReference docRef = db.collection("Пользователи").document(login);
+                            docRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                                @Override
+                                public void onSuccess(DocumentSnapshot documentSnapshot) {
+                                    if (documentSnapshot.get("login") != null) {
+                                        textInputLayoutLogin.setError("Такой пользователь существует");
+                                    } else {
+                                        StringBuilder hash= VerificationAndValidation.getPassword(password);
+                                        user.put(Constants.USER_NAME, login);
+                                        user.put(Constants.USER_PASSWORD, String.valueOf(hash));
+                                        user.put(Constants.USER_NUMBER, number.replaceAll("[\\-\\(\\)]", ""));
+                                        db.collection(Constants.COLLECTION_USERS).document(login).set(user).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                            @Override
+                                            public void onComplete(@NonNull Task<Void> task) {
+                                                if (task.isSuccessful()) {
+                                                    Log.d("ADD", "successful add");
+                                                    SharedPreferences sharedPreferences= getContext().getSharedPreferences(Constants.SHARED_PREFERENCES, Context.MODE_PRIVATE);
+                                                    sharedPreferences.edit().putString(Constants.USER_NAME, login).apply();
+                                                    secondFragmentInterface.toActivity();
+                                                }
+                                            }
+                                        });
+                                    }
+                                }
+                            });
+                    }
+                    break;
+
+                case R.id.buttonCancel:
+                    secondFragmentInterface.toFirstFragment();
+                    break;
+            }
+        }
+
+    };
 
 
 }
