@@ -27,12 +27,14 @@ FirebaseFirestore db;
     String loadUrl;
     YouTubePlayerView ytPlayer;
     Button toTest;
+    Button close;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_vplayer);
         toTest=findViewById(R.id.totTest);
+        close=findViewById(R.id.buttonCancel);
         //WebView webView = findViewById(R.id.wv);
        // webView.setWebViewClient(new WebViewClientK());
         db = FirebaseFirestore.getInstance();
@@ -42,6 +44,7 @@ FirebaseFirestore db;
         String category = getIntent().getStringExtra("category");
         String guid = getIntent().getStringExtra("guid");
         ytPlayer = (YouTubePlayerView)findViewById(R.id.yp);
+        close.setOnClickListener(click);
         toTest.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -122,6 +125,14 @@ FirebaseFirestore db;
     protected YouTubePlayer.Provider getYouTubePlayerProvider() {
         return ytPlayer;
     }
+    View.OnClickListener click=new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            Intent intent=new Intent(VPlayer.this, MainActivity.class);
+            startActivity(intent);
+
+        }
+    };
 
 
 }

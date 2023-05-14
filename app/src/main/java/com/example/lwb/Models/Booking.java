@@ -1,20 +1,74 @@
 package com.example.lwb.Models;
 
 public class Booking {
+    private String bookId;
     private String name;
     private String surname;
     private String patronomyc;
     private String numberOfPhone;
     private String email;
+    private String accountId;
+    private String nameOfEvent;
+    private String timeOfEvent;
+    private String dateOfEvent;
     private int countOfPlaces;
 
-    public Booking(String name, String surname, String patronomyc, String numberOfPhone, String email, int countOfPlaces) {
+    public Booking() {
+    }
+
+    public Booking(String bookId, String name, String surname, String patronomyc, String numberOfPhone, String email, String accountId, String nameOfEvent, String timeOfEvent, String dateOfEvent, int countOfPlaces) {
+        this.bookId=bookId;
         this.name = name;
         this.surname = surname;
         this.patronomyc = patronomyc;
         this.numberOfPhone = numberOfPhone;
         this.email = email;
+        this.accountId = accountId;
+        this.nameOfEvent = nameOfEvent;
+        this.timeOfEvent = timeOfEvent;
+        this.dateOfEvent = dateOfEvent;
         this.countOfPlaces = countOfPlaces;
+    }
+
+    public String getBookId() {
+        return bookId;
+    }
+
+    public void setBookId(String bookId) {
+        this.bookId = bookId;
+    }
+
+    public String getNameOfEvent() {
+        return nameOfEvent;
+    }
+
+    public void setNameOfEvent(String nameOfEvent) {
+        this.nameOfEvent = nameOfEvent;
+    }
+
+    public String getTimeOfEvent() {
+        return timeOfEvent;
+    }
+
+    public void setTimeOfEvent(String timeOfEvent) {
+        this.timeOfEvent = timeOfEvent;
+    }
+
+    public String getDateOfEvent() {
+        return dateOfEvent;
+    }
+
+    public void setDateOfEvent(String dateOfEvent) {
+        this.dateOfEvent = dateOfEvent;
+    }
+
+
+    public String getAccountId() {
+        return accountId;
+    }
+
+    public void setAccountId(String accountId) {
+        this.accountId = accountId;
     }
 
     public String getName() {

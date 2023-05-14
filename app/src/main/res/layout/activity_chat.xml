@@ -6,36 +6,43 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="@color/blue"
+    android:background="@color/white_bezh"
     tools:context=".activities.ChatActivity">
 
     <LinearLayout
         android:id="@+id/view"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
+        android:layout_height="wrap_content"
         android:background="@drawable/background_view"
         android:layout_marginBottom="5dp"
         android:orientation="horizontal">
 
-        <Button
-            android:id="@+id/buttonBack"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/back"
-            android:textSize="16sp"
-            android:textAllCaps="false"
-            android:layout_margin="10dp"
-            android:layout_gravity="left|center"/>
 
         <TextView
             android:id="@+id/nameReceiver"
+            style="@style/header"
+            android:layout_width="250dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="15dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginBottom="15dp"
+            android:layout_marginStart="15dp"
+            android:text="namr"
+            android:textAlignment="textStart"
+            android:textSize="35sp" />
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/buttonBack"
+            style="@style/Widget.Material3.Button.OutlinedButton.Icon"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:textStyle="bold"
-            android:textSize="20sp"
-            android:layout_gravity="center_horizontal|center_vertical"/>
+            app:strokeColor="@color/greyLight"
+            app:icon="@drawable/cancel"
+            android:paddingLeft="30dp"
+            app:iconSize="25dp"
+            app:iconGravity="start"
+            app:iconTint="@color/greyLight"
+            android:layout_margin="15dp"
+            />
 
     </LinearLayout>
 
@@ -44,18 +51,18 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/listOfMesseges"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:layout_height="wrap_content"
         android:layout_marginBottom="10dp"
         app:stackFromEnd="true"
-        android:layout_weight="6"/>
+        />
 
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:gravity="bottom"
-        android:layout_weight="0.7">
+        >
 
     <com.google.android.material.textfield.TextInputLayout
         android:layout_width="0dp"
@@ -67,20 +74,20 @@
             android:id="@+id/messageField"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_margin="7dp"
             android:hint="Введите сообщение"/>
     </com.google.android.material.textfield.TextInputLayout>
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/btnSend"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:backgroundTint="@color/bezh"
-        android:layout_marginTop="10dp"
-        android:clickable="true"
-
-        android:layout_margin="7dp"
-
-        android:src="@drawable/ic_action_send" />
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/btnSend"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="7dp"
+            android:layout_marginTop="10dp"
+            android:backgroundTint="@color/new_green"
+            android:clickable="true"
+            android:src="@drawable/ic_action_send"
+            app:backgroundTint="@color/new_green" />
     </LinearLayout>
 
 

@@ -22,6 +22,17 @@ public class Constants {
     public static final String PASSWORD="rcfnjxwprlwsysdp";
     public static final String THEME_OF_EMAIL="Бронирование";
     public static final String BOOKING="Бронирования";
+    public static final String BOOKING_EVENT_NAME="nameOfEvent";
+    public static final String BOOKING_EVENT_TIME="timeOfEvent";
+    public static final String BOOKING_EVENT_DATE="dateOfEvent";
+    public static final String BOOKING_ACCOUNT="accountId";
+    public static final String BOOKING_ID="bookId";
+    public static final String BOOKING_NAME="name";
+    public static final String BOOKING_PATRONUMIC="patronomyc";
+    public static final String BOOKING_SURNAME="surname";
+    public static final String BOOKING_PLACES="countOfPlaces";
+    public static final String BOOKING_NUMBER="numberOfPhone";
+    public static final String BOOKING_EMAIL="email";
     public static final String COLLECTION_EVENTS="events";
     public static final String FIELD_COUNT_OF_PLACES="countOfPlaces";
 

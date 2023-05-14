@@ -3,6 +3,7 @@ package com.example.lwb.fragments;
 
 import android.app.AlertDialog;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -32,6 +33,7 @@ import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.SetOptions;
 
 import java.util.Collection;
 import java.util.HashMap;
@@ -60,11 +62,20 @@ public class RegistrationDialogFragment extends DialogFragment {
     String patronomyc;
     String number;
     String email;
+    String accountId;
     int count;
+    String nameOfEvent;
+    String dateOfEvent;
+    String timeOfEvent;
+    String bookId="";
+
     JavaMailAPI javaMailAPI;
     RegistrationDialogInterface registrationDialogInterface;
+    DocumentReference newPersonalbooking;
+
 
     private static final String ARG_NAME = "name";
+    private static final String ARG_NAME_OF_EVENT = "nameOfEvent";
     private static final String ARG_DESC = "description";
     private static final String ARG_TIME = "time";
     private static final String ARG_COUNT = "count";
@@ -140,6 +151,7 @@ public class RegistrationDialogFragment extends DialogFragment {
                     //создание письма
                     javaMailAPI = new JavaMailAPI(getContext(), mailEditText.getText().toString(), Constants.THEME_OF_EMAIL, getActivity().getResources().getString(R.string.text_of_letter, arguments.getString(ARG_NAME), arguments.getString(ARG_DATE), arguments.getString(ARG_TIME), arguments.getString(ARG_PLACE), booking.getCountOfPlaces()));
                     //формирование новой записи в БД о бронировании и отправка письма
+
                     bookingFormation(arguments.getString(ARG_DATE), arguments.getString(ARG_TIME), booking);
                     updateInformationDb(String.valueOf(calculationCountOfPlace(arguments.getInt(ARG_COUNT), Integer.valueOf(booking.getCountOfPlaces()))));
                     registrationDialogInterface.updateEventList(arguments.getString(ARG_DATE));
@@ -166,9 +178,27 @@ public class RegistrationDialogFragment extends DialogFragment {
         number=numberEditText.getText().toString().replaceAll("\\s+", "");
         count=numberPicker.getValue();
         email=mailEditText.getText().toString().trim();
-        Booking booking=new Booking(name, surname, patronomyc, number, email, count);
+        nameOfEvent=arguments.getString(ARG_NAME);
+        dateOfEvent=arguments.getString(ARG_DATE);
+        timeOfEvent=arguments.getString(ARG_TIME);
+        accountId=getContext().getSharedPreferences(Constants.SHARED_PREFERENCES, Context.MODE_PRIVATE).getString(Constants.USER_NAME, Constants.USER_NAME);
+        Booking booking=new Booking(bookId,name, surname, patronomyc, number, email,  accountId, nameOfEvent, timeOfEvent, dateOfEvent, count);
         return booking;
     }
+//    //метод создания экземпляра класса бронируемого мероприятия
+//    private Map<String, Object> createEvent()
+//    {
+//
+//        String nameOfEvent=arguments.getString(ARG_NAME);
+//        String dateOfEvent=arguments.getString(ARG_DATE);
+//        String timeOfEvent=arguments.getString(ARG_TIME);
+//
+//        Map<String, Object> event=new HashMap<>();
+//        event.put(ARG_NAME_OF_EVENT, name);
+//        event.put(ARG_DATE, date);
+//        event.put(ARG_TIME, time);
+//        return event;
+//    }
 
     private boolean checkTheFields() {
         nameInputLayout.setError(null);
@@ -242,14 +272,17 @@ public class RegistrationDialogFragment extends DialogFragment {
 
 //метод добавления бронирования
     private void bookingFormation(String dateOfEvent, String timeOfEvent, Booking booking){
-
-        db.collection(Constants.COLLECTION_EVENTS).document(dateOfEvent).collection(dateOfEvent).document(timeOfEvent).collection(Constants.BOOKING).
-                add(booking).
-                addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+        newPersonalbooking=db.collection(Constants.COLLECTION_EVENTS).
+                document(dateOfEvent).collection(dateOfEvent).document(timeOfEvent).
+                collection(Constants.BOOKING).document();
+        booking.setBookId(newPersonalbooking.getId());
+        newPersonalbooking.set(booking).
+                addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
-                    public void onSuccess(DocumentReference documentReference) {
+                    public void onSuccess(Void aVoid) {
                         try {
                             javaMailAPI.execute();
+                            bookingFormationForAccount(accountId, booking);
                             Log.e("RDF", "BOOK");
                              }
                         catch (Exception e){
@@ -266,10 +299,47 @@ public class RegistrationDialogFragment extends DialogFragment {
                 addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
-                        //TODO: ошибка
+                        AlertDialog.Builder alertDialog=new AlertDialog.Builder(getActivity());
+                        alertDialog.setTitle(getString(R.string.error_occured));
+                        alertDialog.setMessage(e.toString());
+                        alertDialog.show();
+                        dismiss();
+                        return;
 
                     }
                 });
+
+    }
+    //метод добавления ифнормации о бронировании пользователю
+    private void bookingFormationForAccount(String accountId, Booking booking){
+        db.collection(Constants.COLLECTION_USERS).document(accountId).collection(Constants.BOOKING).document(newPersonalbooking.getId()).
+               set(booking).
+                addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+
+                        AlertDialog.Builder alertDialog=new AlertDialog.Builder(getActivity());
+                        alertDialog.setTitle(getString(R.string.error_occured));
+                        alertDialog.setMessage(e.toString());
+                        alertDialog.show();
+                        dismiss();
+                        return;
+
+                    }
+                });
+//       newPersonalbooking.set(createEvent(), SetOptions.merge()).addOnFailureListener(new OnFailureListener() {
+//            @Override
+//            public void onFailure(@NonNull Exception e) {
+//
+//                AlertDialog.Builder alertDialog=new AlertDialog.Builder(getActivity());
+//                alertDialog.setTitle(getString(R.string.error_occured));
+//                alertDialog.setMessage(e.toString());
+//                alertDialog.show();
+//                dismiss();
+//                return;
+//
+//            }
+//        });
 
     }
 

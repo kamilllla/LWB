@@ -14,9 +14,11 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.Toast;
 
 import com.example.lwb.Constants;
+import com.example.lwb.DateTreatmentMethods;
 import com.example.lwb.Event;
 import com.example.lwb.R;
 import com.example.lwb.adapters.EventListAdapter;
@@ -65,6 +67,7 @@ public class EventListFragment extends Fragment {
 
     public interface EventListFragmentInterface{
         void showDialogFragment(Event event);
+        void showCalendarFragment();
     }
 
     EventListAdapter.EventListInterface eventListInterface= new EventListAdapter.EventListInterface() {
@@ -74,6 +77,7 @@ public class EventListFragment extends Fragment {
 
         }
     };
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -85,6 +89,8 @@ public class EventListFragment extends Fragment {
         // Inflate the layout for this fragment
         View view=inflater.inflate(R.layout.fragment_event_list, container, false);
         RecyclerView recyclerView=view.findViewById(R.id.recycleView);
+        Button buttonClose=view.findViewById(R.id.buttonClose);
+        buttonClose.setOnClickListener(clickButton);
 
         bundle=getArguments();
         date=bundle.getString("date");
@@ -98,10 +104,8 @@ public class EventListFragment extends Fragment {
 
                                 for (QueryDocumentSnapshot document1 : task.getResult()) {
 
-
-
-                                      Date dateOfEvent=getDateFromStrings(document1.getString("time"),document1.getString("date"));
-                                      if (checkRelevanceOfTime(dateOfEvent)) {
+                                      Date dateOfEvent= DateTreatmentMethods.getDateFromStrings(document1.getString("time"),document1.getString("date"));
+                                      if (DateTreatmentMethods.checkRelevanceOfTime(dateOfEvent)) {
                                           events.add(new Event(document1.getString("name"), document1.getString("description"), document1.getString("time"), document1.getString("date"), document1.getString("place"), Integer.parseInt(document1.getString("countOfPlaces"))));
                                           EventListAdapter adapter = new EventListAdapter(events, getContext(), eventListInterface);
                                           recyclerView.setAdapter(adapter);
@@ -130,24 +134,14 @@ public class EventListFragment extends Fragment {
         }
 
     }
+    //слушатель события нажатия на кнопку
+    private View.OnClickListener clickButton=new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            eventListFragmentInterface.showCalendarFragment();
 
-    private boolean checkRelevanceOfTime(Date dateOfEvent) {
-
-        if (dateOfEvent.before(new Date()))
-            return false;
-        else return true;
-    }
-
-    private Date getDateFromStrings(String time, String date){
-        SimpleDateFormat format = new SimpleDateFormat();
-        format.applyPattern("dd.MM.yyyy HH:mm");
-        Date docDate= null;
-        String s=date+" "+time;
-        try {
-            docDate = format.parse(s);
-        } catch (ParseException e) {
-            e.printStackTrace();
         }
-        return docDate;
-    }
+    };
+
+
 }

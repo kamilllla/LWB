@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="@drawable/back_lines_2"
-    >
+   >
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/buttonClose"
@@ -23,17 +24,27 @@
         android:layout_marginEnd="15dp"
         android:layout_marginBottom="15dp"
         />
+
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        >
+       >
+        <TextView
+            android:id="@+id/textAlert"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="@string/alert_inaccessibility_books"
+            android:textAlignment="center"
+            style="@style/text"
+            android:textSize="25sp"
+            android:visibility="gone"
+            />
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycleView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
 
+    </FrameLayout>
 
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recycleView"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
-
-</FrameLayout>
 </LinearLayout>

@@ -3,6 +3,7 @@ package com.example.lwb.activities;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -47,18 +48,34 @@ public class TestActivity extends AppCompatActivity {
         buttonCancel=findViewById(R.id.buttonCancel);
         TextView themeOfTest=findViewById(R.id.textViewHeader);
         category = getIntent().getStringExtra("category");
-       guid = getIntent().getStringExtra("guid");
+        guid = getIntent().getStringExtra("guid");
         sharedPreferences=getSharedPreferences("settings", MODE_PRIVATE);
         sharedPreferences.edit().putInt(guid, currentResult).apply();
         themeOfTest.setText(guid);
 
 
 
-        db.collection("Видеогиды").document(category).collection(category).document(guid).collection("Вопросы").document("1").get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+        db.collection("Видеогиды").document(category).collection(category).document(guid).collection("Вопросы")
+                .document("1").get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                 if (task.isSuccessful()) {
-                    viewQuestion.setText(task.getResult().get("вопрос").toString());
+                    try {
+                        viewQuestion.setText(task.getResult().get("вопрос").toString());
+                    }
+                    catch(Exception e){
+//                        AlertDialog.Builder alertDialog=new AlertDialog.Builder(getApplicationContext());
+//                        alertDialog.setTitle(getString(R.string.error_occured));
+//                        alertDialog.setMessage(e.toString());
+//                        alertDialog.show();
+                        Toast.makeText(getApplicationContext(), "К сожалению по данному видеогиду нет доступных тестов", Toast.LENGTH_LONG).show();
+                        Intent intent=new Intent(TestActivity.this, VPlayer.class);
+                        intent.putExtra("guid", guid);
+                        intent.putExtra("category", category);
+                        startActivity(intent);
+
+
+                    }
                 }
                 else {
                     Log.i("ERROR", "errror");

@@ -18,12 +18,18 @@ public class Event {
     }
 
 
-
-    public Event(String name, String description, String time) {
+    public Event(String name, String date, String time) {
         this.name = name;
-        this.description = description;
+        this.date=date;
         this.time = time;
     }
+
+
+//    public Event(String name, String description, String time) {
+//        this.name = name;
+//        this.description = description;
+//        this.time = time;
+//    }
 
     public String getName() {
         return name;

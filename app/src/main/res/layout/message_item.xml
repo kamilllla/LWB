@@ -14,13 +14,14 @@
         android:layout_marginEnd="5dp"
         android:layout_marginBottom="5dp"
         android:text="HEllo"
-        android:textColor="@color/white"
+        android:textColor="@color/dark_green"
+        android:fontFamily="@font/gilroy_light"
         android:textSize="20sp" />
 
 
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/messageField"
-        android:layout_width="wrap_content"
+        android:layout_width="200dp"
         android:layout_height="wrap_content"
         android:layout_below="@id/nameUser"
         android:layout_marginStart="5dp"
@@ -30,9 +31,11 @@
         android:layout_marginBottom="5dp"
         android:background="@drawable/background_message"
         android:padding="10dp"
-        android:text="HEllo"
+        android:text="HEllofdfjgddgdgfdgfdgfdgfdgfdgfdgfdg"
         android:textColor="@color/black"
-        android:textSize="20sp" />
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:fontFamily="@font/gilroy_light"/>
 
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/timeOfMessage"
@@ -42,7 +45,9 @@
         android:layout_alignEnd="@id/messageField"
         android:text="HEllo"
         android:textColor="@color/white"
-        android:textSize="14sp" />
+        android:textSize="14sp"
+        android:textStyle="bold"
+        android:fontFamily="@font/gilroy_light"/>
 
 
 

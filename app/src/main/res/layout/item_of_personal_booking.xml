@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:expandableTextView="http://schemas.android.com/tools"
+    app:cardCornerRadius="10dp"
+    android:backgroundTint="#FFFFFF"
+    android:layout_margin="10dp"
+    app:strokeColor="@color/greyLight"
+    app:strokeWidth="1dp"
+    >
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="15dp"
+            android:layout_marginBottom="5dp">
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/nameTextView"
+                    android:layout_width="255dp"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginEnd="5dp"
+                    android:layout_marginStart="15dp"
+                    android:fontFamily="@font/gilroy_light"
+                    android:gravity="center_vertical"
+                    android:text="Экскурсия по Эрмитажу"
+                    android:textColor="@color/black"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal"
+                    android:layout_marginTop="5dp">
+
+                <TextView
+                    android:id="@+id/TextView"
+                    android:layout_width="109dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="17dp"
+                    android:layout_marginEnd="7dp"
+                    android:fontFamily="@font/gilroy_light"
+                    android:gravity="center_vertical"
+                    android:text="Время и дата:"
+                    android:textColor="@color/black"
+                    android:textSize="15sp"
+                    android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/timeAnDateTextView"
+                        android:layout_width="143dp"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginEnd="5dp"
+                        android:fontFamily="@font/gilroy_light"
+                        android:gravity="center_vertical"
+                        android:text="17:00 15.05.2023"
+                        android:textColor="@color/black"
+                        android:textSize="15sp"
+                        android:textStyle="bold" />
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal"
+                    android:layout_marginTop="5dp">
+
+                    <TextView
+                        android:id="@+id/textViewInfoAboutBookingPlaces"
+                        android:layout_width="181dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginStart="17dp"
+                        android:layout_marginEnd="10dp"
+                        android:fontFamily="@font/gilroy_light"
+                        android:gravity="center_vertical"
+                        android:text="Забронированных мест:"
+                        android:textColor="@color/black"
+                        android:textSize="15sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/countBookingPlaces"
+                        android:layout_width="54dp"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginEnd="5dp"
+                        android:fontFamily="@font/gilroy_light"
+                        android:gravity="center_vertical"
+                        android:text="15"
+                        android:textColor="@color/black"
+                        android:textSize="15sp"
+                        android:textStyle="bold" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/buttonDelete"
+                style="@style/Widget.Material3.Button.Icon"
+                android:layout_width="65dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end|center_vertical"
+                android:layout_marginEnd="5dp"
+                android:layout_marginStart="15dp"
+                android:backgroundTint="#C4F48B"
+                app:cornerRadius="10dp"
+                app:icon="@drawable/trash"
+                app:iconGravity="start"
+                android:paddingLeft="18dp"
+                app:iconSize="28dp"
+                app:iconTint="#606060" />
+        </LinearLayout>
+
+
+    </LinearLayout>
+</com.google.android.material.card.MaterialCardView>

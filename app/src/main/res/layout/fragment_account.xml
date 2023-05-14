@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/bezh"
+    android:background="@drawable/back_lines_2"
     tools:context=".activities.MainActivity"
     android:orientation="vertical">
 
@@ -35,20 +35,12 @@
             android:text="@string/account"/>
     </androidx.cardview.widget.CardView>
 
-    <com.google.android.material.imageview.ShapeableImageView
-        android:layout_width="127dp"
-        android:layout_height="126dp"
-        android:layout_gravity="center_horizontal|center_vertical"
-        android:layout_marginTop="10dp"
-        android:padding="5dp"
-        app:shapeAppearanceOverlay="@style/circle"
-        app:strokeWidth="7dp" />
-
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
-        android:backgroundTint="@color/white"
+        android:backgroundTint="#C9F8F8F8"
+        app:cardElevation="3dp"
         app:cardCornerRadius="35dp">
         <LinearLayout
             android:layout_width="wrap_content"
@@ -63,8 +55,8 @@
                 android:textSize="25sp"
                 android:layout_marginTop="10dp"
                 android:fontFamily="@font/gilroy_light"
-                android:textColor="@color/blue"
-                android:text="hjhvhjvj"/>
+                style="@style/header"
+               />
 
 
             <com.google.android.material.textfield.TextInputLayout
@@ -124,10 +116,19 @@
                 android:id="@+id/saveChange"
                 style="@style/Button"
                 android:layout_marginTop="10dp"
-                android:backgroundTint="#990047AB"
                 android:layout_gravity="center"
                 android:enabled="false"
                 android:text="изменить" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/buttonToBookList"
+                style="@style/Button"
+                android:layout_gravity="center"
+                android:layout_marginBottom="5dp"
+                android:layout_height="50dp"
+                android:text="@string/my_booking_list" />
+
+
         </LinearLayout>
     </androidx.cardview.widget.CardView>
 

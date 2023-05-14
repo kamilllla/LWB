@@ -35,6 +35,7 @@
     <string name="notification">Уведомление</string>
     <string name="warning_available">К сожалению на данное мероприятие нет свободных мест!</string>
     <string name="events">Мероприятия</string>
+    <string name="my_booking_list">Мои бронирования</string>
     <string name="hello_first_fragment">Hello first fragment</string>
     <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
 
@@ -44,4 +45,9 @@
     <string name="error_occured">Произошла ошибка бронирования, попробуйте снова!</string>
     <string name="error_unload_events">Произошла ошибка выгрузки событий, попробуйте снова!</string>
     <string name="alert_inaccessibility_events">"Мероприятия в этот день не доступны"</string>
+    <string name="alert_inaccessibility_books">"Нет забронированных мероприятий"</string>
+    <string name="question_for_deleting">Вы хотите удалить бронь \nна выбранное мероприятие?</string>
+    <string name="delete">Удалить</string>
+    <string name="error_cancel_book">Произошла ошибка отмены бронирования, попробуйте снова!</string>
+
 </resources>
