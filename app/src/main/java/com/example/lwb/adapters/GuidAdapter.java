@@ -11,7 +11,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 
-import com.example.lwb.Categories;
+import com.example.lwb.Models.Categories;
 import com.example.lwb.R;
 
 import java.util.List;

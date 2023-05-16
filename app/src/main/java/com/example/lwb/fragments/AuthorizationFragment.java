@@ -133,7 +133,7 @@ public class AuthorizationFragment extends Fragment {
                                     } else
                                         Toast.makeText(getContext(), "Неверный пароль", Toast.LENGTH_LONG).show();
                                 } else {
-                                    Toast.makeText(getContext(), "Такого пользователя не существеут", Toast.LENGTH_LONG).show();
+                                    Toast.makeText(getContext(), "Такого пользователя не существует", Toast.LENGTH_LONG).show();
                                 }
 
                             }
@@ -141,7 +141,7 @@ public class AuthorizationFragment extends Fragment {
                         .addOnFailureListener(new OnFailureListener() {
                             @Override
                             public void onFailure(@NonNull Exception e) {
-                                Toast.makeText(getContext(), "Произошла ошибка, проверьте подключение к Интернету и попробуйте зановао!", Toast.LENGTH_LONG).show();
+                                Toast.makeText(getContext(), "Произошла ошибка, проверьте подключение к Интернету и попробуйте заново!", Toast.LENGTH_LONG).show();
 
                             }
                         });

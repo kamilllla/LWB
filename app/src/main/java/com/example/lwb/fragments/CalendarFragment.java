@@ -18,16 +18,14 @@ import android.widget.Toast;
 import com.events.calendar.views.EventsCalendar;
 import com.example.lwb.Constants;
 import com.example.lwb.DateTreatmentMethods;
-import com.example.lwb.Event;
+import com.example.lwb.Models.Event;
 import com.example.lwb.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 

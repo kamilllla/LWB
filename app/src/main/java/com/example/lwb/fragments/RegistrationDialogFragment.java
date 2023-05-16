@@ -3,11 +3,9 @@ package com.example.lwb.fragments;
 
 import android.app.AlertDialog;
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 
 import android.util.Log;
@@ -16,28 +14,19 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.NumberPicker;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.lwb.Constants;
-import com.example.lwb.Event;
+import com.example.lwb.Models.Event;
 import com.example.lwb.JavaMailAPI;
 import com.example.lwb.Models.Booking;
 import com.example.lwb.R;
 import com.example.lwb.VerificationAndValidation;
-import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.SetOptions;
-
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
 
 
 public class RegistrationDialogFragment extends DialogFragment {
@@ -244,19 +233,19 @@ public class RegistrationDialogFragment extends DialogFragment {
             }
             if (VerificationAndValidation.checkEmailIncorrect(email)){
                 mailInputLayout.setError("Почта может включать латинские буквы (A-Z,a-z), цифры и знаки (.-_);" +
-                        " знаки не могут идти подряд, начинаться почта может только с букв или цифр");
+                        " знаки не могут идти подряд; почта может начинаться только с букв или цифр");
                 return false;
             }
             if (VerificationAndValidation.checkFIOIncorrect(name)){
-                nameInputLayout.setError("Имя может сожержать либо латинские буквы, либо кириллицу, без пробелов");
+                nameInputLayout.setError("Имя может содержать либо латинские буквы, либо кириллицу, без пробелов");
                 return false;
             }
             if (VerificationAndValidation.checkFIOIncorrect(surname)){
-                surnameInputLayout.setError("Фамилия может сожержать либо латинские буквы, либо кириллицу, без пробелов");
+                surnameInputLayout.setError("Фамилия может содержать либо латинские буквы, либо кириллицу, без пробелов");
                 return false;
             }
             if (VerificationAndValidation.checkFIOIncorrect(patronomyc)){
-                patronomycInputLayout.setError("Отчество может сожержать либо латинские буквы, либо кириллицу, без пробелов");
+                patronomycInputLayout.setError("Отчество может содержать либо латинские буквы, либо кириллицу, без пробелов");
                 return false;
             }
             return true;

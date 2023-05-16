@@ -1,4 +1,4 @@
-package com.example.lwb;
+package com.example.lwb.Models;
 
 public class Guid {
     public Guid() {

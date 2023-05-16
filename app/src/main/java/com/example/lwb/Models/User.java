@@ -1,4 +1,4 @@
-package com.example.lwb;
+package com.example.lwb.Models;
 
 import java.io.Serializable;
 

@@ -9,7 +9,7 @@ import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.lwb.Event;
+import com.example.lwb.Models.Event;
 import com.example.lwb.R;
 import com.ms.square.android.expandabletextview.ExpandableTextView;
 
@@ -91,7 +91,7 @@ public class EventListAdapter extends RecyclerView.Adapter<EventListAdapter.View
                 eventListInterface.toDialogFragment(event);
             }
         });
-        holder.descriptionExpandableTextView.setText("Описание..."+event.getDescription());
+        holder.descriptionExpandableTextView.setText("Описание..."+event.getDescription()+"\n"+"Адрес проведения: "+event.getPlace());
 
     }
 

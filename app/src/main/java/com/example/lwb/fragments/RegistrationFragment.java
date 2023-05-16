@@ -150,7 +150,7 @@ public class RegistrationFragment extends Fragment {
                                 @Override
                                 public void onSuccess(DocumentSnapshot documentSnapshot) {
                                     if (documentSnapshot.get("login") != null) {
-                                        textInputLayoutLogin.setError("Такой пользователь существует");
+                                        textInputLayoutLogin.setError("Такой пользователь уже существует");
                                     } else {
                                         StringBuilder hash= VerificationAndValidation.getPassword(password);
                                         user.put(Constants.USER_NAME, login);

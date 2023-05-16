@@ -6,13 +6,11 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.MenuItem;
 
-import com.example.lwb.Event;
+import com.example.lwb.Models.Event;
 import com.example.lwb.Models.Booking;
 import com.example.lwb.fragments.AccountFragment;
 import com.example.lwb.Constants;
@@ -21,7 +19,7 @@ import com.example.lwb.fragments.CalendarFragment;
 import com.example.lwb.fragments.CancelDialogFragment;
 import com.example.lwb.fragments.EducationFragment;
 import com.example.lwb.R;
-import com.example.lwb.User;
+import com.example.lwb.Models.User;
 import com.example.lwb.fragments.EventListFragment;
 import com.example.lwb.fragments.RegistrationDialogFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;

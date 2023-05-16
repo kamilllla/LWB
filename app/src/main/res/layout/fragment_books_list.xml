@@ -34,11 +34,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:text="@string/alert_inaccessibility_books"
+            android:text="@string/load_events"
             android:textAlignment="center"
             style="@style/text"
             android:textSize="25sp"
-            android:visibility="gone"
+
             />
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recycleView"

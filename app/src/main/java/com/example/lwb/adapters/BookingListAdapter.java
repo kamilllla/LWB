@@ -9,7 +9,6 @@ import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.lwb.Event;
 import com.example.lwb.Models.Booking;
 import com.example.lwb.R;
 

@@ -7,7 +7,8 @@
         android:layout_height="match_parent"
         android:orientation="vertical"
         android:background="@color/white_bezh"
-        tools:context="com.example.lwb.activities.MainActivity">
+        tools:context="com.example.lwb.activities.MainActivity"
+    >
 
         <FrameLayout
             android:layout_height="wrap_content"
@@ -27,6 +28,7 @@
         app:labelVisibilityMode="labeled"
         android:background="@drawable/shape_of_bottom"
         android:layout_gravity="bottom"
+
         />
 
 </FrameLayout>

@@ -3,7 +3,6 @@ package com.example.lwb.activities;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.app.AlertDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -14,15 +13,13 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.lwb.R;
-import com.example.lwb.Test;
+import com.example.lwb.Models.Test;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
-
-import org.w3c.dom.Document;
 
 import java.util.ArrayList;
 
@@ -36,6 +33,7 @@ public class TestActivity extends AppCompatActivity {
     Button buttonFirst;
     Button buttonSecond;
     Button buttonCancel;
+    Button repatButton;
     SharedPreferences sharedPreferences;
 
     @Override
@@ -46,6 +44,7 @@ public class TestActivity extends AppCompatActivity {
         buttonFirst=findViewById(R.id.button);
         buttonSecond=findViewById(R.id.button2);
         buttonCancel=findViewById(R.id.buttonCancel);
+        repatButton=findViewById(R.id.buttonToRepeat);
         TextView themeOfTest=findViewById(R.id.textViewHeader);
         category = getIntent().getStringExtra("category");
         guid = getIntent().getStringExtra("guid");
@@ -64,10 +63,6 @@ public class TestActivity extends AppCompatActivity {
                         viewQuestion.setText(task.getResult().get("вопрос").toString());
                     }
                     catch(Exception e){
-//                        AlertDialog.Builder alertDialog=new AlertDialog.Builder(getApplicationContext());
-//                        alertDialog.setTitle(getString(R.string.error_occured));
-//                        alertDialog.setMessage(e.toString());
-//                        alertDialog.show();
                         Toast.makeText(getApplicationContext(), "К сожалению по данному видеогиду нет доступных тестов", Toast.LENGTH_LONG).show();
                         Intent intent=new Intent(TestActivity.this, VPlayer.class);
                         intent.putExtra("guid", guid);
@@ -87,9 +82,9 @@ public class TestActivity extends AppCompatActivity {
 
 
         buttonFirst.setOnClickListener(onClickListener);
-
         buttonSecond.setOnClickListener(onClickListener);
         buttonCancel.setOnClickListener(onClickListener);
+        repatButton.setOnClickListener(onClickListener);
 
 
 
@@ -126,11 +121,12 @@ public class TestActivity extends AppCompatActivity {
                                                                                                                                                                         int maxResult=sharedPreferences.getInt("max_"+guid, 0);
                                                                                                                                                                         if (maxResult<currentResult){
                                                                                                                                                                             sharedPreferences.edit().putInt("max_"+guid, currentResult).apply();
-
                                                                                                                                                                         }
                                                                                                                                                                         buttonFirst.setEnabled(false);
                                                                                                                                                                         buttonSecond.setEnabled(false);
-                                                                                                                                                                        buttonSecond.setVisibility(View.INVISIBLE);
+                                                                                                                                                                        buttonFirst.setVisibility(View.GONE);
+                                                                                                                                                                        buttonSecond.setVisibility(View.GONE);
+                                                                                                                                                                        repatButton.setVisibility(View.VISIBLE);
                                                                                                                                                                         viewQuestion.setText("Ваш текущий результат - "+ currentResult+"\nВаш максимальный результат - "+ maxResult);
 
                                                                                                                                                                     }
@@ -177,7 +173,9 @@ public class TestActivity extends AppCompatActivity {
                                                                                                                                                                         Log.i("RES", "hfjfgjhgjhg");
                                                                                                                                                                         buttonFirst.setEnabled(false);
                                                                                                                                                                         buttonSecond.setEnabled(false);
-                                                                                                                                                                        buttonSecond.setVisibility(View.INVISIBLE);
+                                                                                                                                                                        buttonFirst.setVisibility(View.GONE);
+                                                                                                                                                                        buttonSecond.setVisibility(View.GONE);
+                                                                                                                                                                        repatButton.setVisibility(View.VISIBLE);
                                                                                                                                                                         viewQuestion.setText("Ваш текущий результат - "+ currentResult+"\nВаш максимальный результат - "+ maxResult);
 
 
@@ -196,6 +194,12 @@ public class TestActivity extends AppCompatActivity {
                     intent.putExtra("guid", guid);
                     intent.putExtra("category", category);
                     startActivity(intent);
+                    break;
+                case R.id.buttonToRepeat:
+                    Intent intentRepeat=new Intent(TestActivity.this,TestActivity.class);
+                    intentRepeat.putExtra("guid", guid);
+                    intentRepeat.putExtra("category", category);
+                    startActivity(intentRepeat);
                     break;
 
             }

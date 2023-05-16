@@ -9,9 +9,9 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.lwb.Message;
+import com.example.lwb.Models.Message;
 import com.example.lwb.R;
-import com.example.lwb.User;
+import com.example.lwb.Models.User;
 
 import java.util.List;
 

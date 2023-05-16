@@ -35,12 +35,7 @@ FirebaseFirestore db;
         setContentView(R.layout.activity_vplayer);
         toTest=findViewById(R.id.totTest);
         close=findViewById(R.id.buttonCancel);
-        //WebView webView = findViewById(R.id.wv);
-       // webView.setWebViewClient(new WebViewClientK());
         db = FirebaseFirestore.getInstance();
-        // включаем поддержку JavaScript
-        //webView.getSettings().setJavaScriptEnabled(true);
-
         String category = getIntent().getStringExtra("category");
         String guid = getIntent().getStringExtra("guid");
         ytPlayer = (YouTubePlayerView)findViewById(R.id.yp);

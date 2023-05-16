@@ -1,6 +1,8 @@
 <resources>
     <string name="app_name">Языки без границ</string>
-    <string name="account">Аккаунт</string>
+    <string name="account">Личный аккаунт</string>
+    <string name="personal_data">Личные данные:</string>
+    <string name="personal_books">Список забронированных мероприятий:</string>
     <string name="education">Образование</string>
     <string name="chat">Чат</string>
     <string name="back">Назад</string>
@@ -33,12 +35,13 @@
     <string name="title_of_chat">Список активных чатов</string>
     <string name="message_alert">У Вас нет сообщений</string>
     <string name="notification">Уведомление</string>
-    <string name="warning_available">К сожалению на данное мероприятие нет свободных мест!</string>
+    <string name="warning_available">К сожалению, на данное мероприятие нет свободных мест!</string>
     <string name="events">Мероприятия</string>
+    <string name="load_events">Загрузка мероприятий</string>
     <string name="my_booking_list">Мои бронирования</string>
     <string name="hello_first_fragment">Hello first fragment</string>
     <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
-
+    <string name="repeat_test">Пройти тест заново</string>
     <string name="text_of_letter">Здравствуйте! Вы забронировали место на участие в мероприятии \"%1$s\" от организации \"Языки без границ\".\n\n Дата и время проведения: %2$s %3$s\n Адрес проведения: %4$s\n Количество забронированных мест: %5$d\n\nЕсли у Вас будут вопросы, Вы можете написать нам на данный электронный адрес, в приложении, или в социальных сетях, не стесняйтесь!</string>
     <string name="flag_send">Участие в мероприятии успешно забронировано! Вам было отправлено сообщение на электронную почту.</string>
     <string name="flag_error_send">Произошла ошибка при отправке электронного письма о бронировании мест на мероприятие! Вы можете нам написать на электронную почту или позвонить.</string>
@@ -49,5 +52,5 @@
     <string name="question_for_deleting">Вы хотите удалить бронь \nна выбранное мероприятие?</string>
     <string name="delete">Удалить</string>
     <string name="error_cancel_book">Произошла ошибка отмены бронирования, попробуйте снова!</string>
-
+    <string name="change_personal_data">Изменить данные</string>
 </resources>

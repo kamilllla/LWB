@@ -6,9 +6,9 @@ import android.os.Bundle;
 
 import com.example.lwb.adapters.ChatAdapter;
 import com.example.lwb.Constants;
-import com.example.lwb.Message;
+import com.example.lwb.Models.Message;
 import com.example.lwb.R;
-import com.example.lwb.User;
+import com.example.lwb.Models.User;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
@@ -73,7 +73,12 @@ public class ChatActivity extends AppCompatActivity {
         buttonSend.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                sendMessage();
+                String text=String.valueOf(editText.getText()).replaceAll("\\s+", "");
+                if(text.isEmpty()){
+                    editText.setText("");
+                    return;
+                }else
+                    sendMessage();
             }
         });
         textView.setText(user.name);

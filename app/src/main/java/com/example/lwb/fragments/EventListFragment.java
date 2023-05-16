@@ -1,16 +1,13 @@
 package com.example.lwb.fragments;
 
 import android.content.Context;
-import android.os.Build;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,7 +16,7 @@ import android.widget.Toast;
 
 import com.example.lwb.Constants;
 import com.example.lwb.DateTreatmentMethods;
-import com.example.lwb.Event;
+import com.example.lwb.Models.Event;
 import com.example.lwb.R;
 import com.example.lwb.adapters.EventListAdapter;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -29,14 +26,7 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 
-import androidx.fragment.app.DialogFragment;
-
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.time.LocalTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 

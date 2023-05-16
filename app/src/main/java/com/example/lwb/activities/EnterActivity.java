@@ -13,7 +13,7 @@ import com.example.lwb.fragments.AuthorizationFragment;
 import com.example.lwb.R;
 import com.example.lwb.fragments.RegistrationFragment;
 
-public class EnterActivity2 extends AppCompatActivity implements AuthorizationFragment.AuthorizationFragmentInterface, RegistrationFragment.SecondFragmentInterface, AuthorizationEmployeeFragment.AuthorizationEmployeeFragmentInterface {
+public class EnterActivity extends AppCompatActivity implements AuthorizationFragment.AuthorizationFragmentInterface, RegistrationFragment.SecondFragmentInterface, AuthorizationEmployeeFragment.AuthorizationEmployeeFragmentInterface {
     FragmentManager fragmentManager;
     FragmentTransaction fragmentTransaction;
     Fragment fragment=new AuthorizationFragment();
@@ -39,7 +39,7 @@ public class EnterActivity2 extends AppCompatActivity implements AuthorizationFr
 
     @Override
     public void toMainActivity() {
-        Intent intent=new Intent(EnterActivity2.this, MainActivity.class);
+        Intent intent=new Intent(EnterActivity.this, MainActivity.class);
         startActivity(intent);
     }
 
@@ -55,7 +55,7 @@ public class EnterActivity2 extends AppCompatActivity implements AuthorizationFr
 
     @Override
     public void toActivity() {
-        Intent intent=new Intent(EnterActivity2.this, MainActivity.class);
+        Intent intent=new Intent(EnterActivity.this, MainActivity.class);
         startActivity(intent);
 
     }
@@ -72,7 +72,7 @@ public class EnterActivity2 extends AppCompatActivity implements AuthorizationFr
 
     @Override
     public void toMainActivityEmployees() {
-        Intent intent=new Intent(EnterActivity2.this, MainActivityForEmployee.class);
+        Intent intent=new Intent(EnterActivity.this, MainActivityForEmployee.class);
         startActivity(intent);
 
     }

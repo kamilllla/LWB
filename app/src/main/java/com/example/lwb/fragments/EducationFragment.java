@@ -3,7 +3,6 @@ package com.example.lwb.fragments;
 
 import android.content.Context;
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -19,29 +18,24 @@ import android.widget.EditText;
 import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.lwb.Categories;
+import com.example.lwb.Models.Categories;
 import com.example.lwb.Constants;
-import com.example.lwb.Guid;
-import com.example.lwb.Message;
+import com.example.lwb.Models.Guid;
 import com.example.lwb.R;
 import com.example.lwb.activities.VPlayer;
 import com.example.lwb.adapters.GuidAdapter;
 import com.example.lwb.adapters.SecondAdapter;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.firestore.DocumentChange;
-import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 
@@ -78,6 +72,7 @@ public class EducationFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view=inflater.inflate(R.layout.fragment_education, container, false);
+        getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_NOTHING);
         searchView = view.findViewById(R.id.searchView);
         searchImageView=view.findViewById(R.id.searchImage);
         recyclerView = view.findViewById(R.id.recyclerView);
@@ -112,6 +107,7 @@ public class EducationFragment extends Fragment {
             }
             // скрытие поисковой строк
             else {
+                searchView.setText("");
                 searchView.setVisibility(View.GONE);
                 searchView.startAnimation(animate(false));
                 searchView.setSelected(false);

@@ -31,7 +31,7 @@
         android:textSize="40sp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="GVcvsdvksd jhdvbsjdhvj hsbej"
+        android:text=""
         android:layout_marginTop="15dp"
         android:layout_marginLeft="15dp"
         android:layout_marginRight="15dp"
@@ -64,10 +64,20 @@
                 android:layout_marginBottom="25dp"
                 android:layout_marginEnd="10dp"
                 android:layout_marginStart="10dp"
-                android:text="TextViewsgdfhjekgsfiyegfuyegfkyuwgeyfytdfja`gdsf`ays"
+                android:text=""
                 android:textAlignment="center"
                 android:textSize="30sp"
                 />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/buttonToRepeat"
+                style="@style/ButtonOutlineDynamic"
+                android:layout_width="300dp"
+                android:layout_height="58dp"
+                android:layout_gravity="center"
+                android:layout_marginTop="10dp"
+                android:text="@string/repeat_test"
+                android:visibility="gone"/>
 
             <androidx.appcompat.widget.LinearLayoutCompat
                 android:layout_width="match_parent"

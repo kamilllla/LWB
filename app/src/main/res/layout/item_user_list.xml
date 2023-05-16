@@ -33,19 +33,19 @@
                />
 
 
-            <TextView
-                android:id="@+id/recentMessage"
-                android:layout_width="210dp"
-                android:layout_height="match_parent"
-                android:layout_marginStart="15dp"
-                android:layout_marginEnd="10dp"
-                android:layout_marginBottom="10dp"
-
-                android:fontFamily="@font/gilroy_light"
-                android:text="Экскурсия gj 'hvbnf;e gj 'hvbnf;e"
-                android:textColor="@color/greyLight"
-                android:textSize="15sp"
-                android:textStyle="bold" />
+        <TextView
+            android:id="@+id/recentMessage"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginStart="15dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginBottom="10dp"
+            android:fontFamily="@font/gilroy_light"
+            android:maxLines="2"
+            android:text="Экскурсия "
+            android:textColor="@color/greyLight"
+            android:textSize="15sp"
+            android:textStyle="bold" />
 
 
         </LinearLayout>

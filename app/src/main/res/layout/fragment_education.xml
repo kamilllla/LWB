@@ -25,9 +25,7 @@
                 android:backgroundTint="@color/grey"
                 android:focusable="true"
                 android:iconifiedByDefault="false"
-
-
-
+                android:singleLine="true"
                 android:textColor="@color/grey"
                 android:visibility="gone" />
 

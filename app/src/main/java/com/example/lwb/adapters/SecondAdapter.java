@@ -11,8 +11,8 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.lwb.Categories;
-import com.example.lwb.Guid;
+import com.example.lwb.Models.Categories;
+import com.example.lwb.Models.Guid;
 import com.example.lwb.R;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -87,7 +87,7 @@ public class SecondAdapter extends RecyclerView.Adapter<SecondAdapter.ViewHolder
             public void onSuccess(Uri uri) {
 
                 Picasso.get().load(uri). error(R.drawable.ic_launcher_background)
-                        .placeholder(R.drawable.loading).into(holder.photoImg);
+                        .placeholder(R.drawable.l4).into(holder.photoImg);
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override

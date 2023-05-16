@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -14,6 +14,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/background_view"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
         android:layout_marginBottom="5dp"
         android:orientation="horizontal">
 
@@ -50,32 +53,54 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/listOfMesseges"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/enterMessageView"
+        app:layout_constraintTop_toBottomOf="@id/view"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
+        android:clipToPadding="false"
+        android:overScrollMode="never"
+        android:orientation="vertical"
         android:layout_marginBottom="10dp"
         app:stackFromEnd="true"
         />
 
 
     <LinearLayout
+        android:id="@+id/enterMessageView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         android:gravity="bottom"
         >
 
     <com.google.android.material.textfield.TextInputLayout
         android:layout_width="0dp"
         android:layout_weight="1"
+        style="@style/EditTextHintStyle"
+        app:shapeAppearanceOverlay="@style/ShapeOfTextField"
         android:layout_height="wrap_content"
+        android:hint="Введите сообщение"
+        app:boxStrokeWidth="0dp"
+        app:boxStrokeWidthFocused="0dp"
 
         >
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/messageField"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_margin="7dp"
-            android:hint="Введите сообщение"/>
+            android:fontFamily="@font/gilroy_light"
+            android:backgroundTint="@color/greyLight"
+
+            android:layout_marginBottom="7dp"
+            android:layout_marginStart="7dp"
+            android:textCursorDrawable="@null"
+
+           />
     </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -96,4 +121,4 @@
 
 
 
-</LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
