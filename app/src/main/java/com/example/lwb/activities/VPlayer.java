@@ -2,6 +2,7 @@ package com.example.lwb.activities;
 
 import androidx.annotation.NonNull;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -9,6 +10,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.example.lwb.Constants;
 import com.example.lwb.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -28,6 +30,7 @@ FirebaseFirestore db;
     YouTubePlayerView ytPlayer;
     Button toTest;
     Button close;
+    String login;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -123,8 +126,14 @@ FirebaseFirestore db;
     View.OnClickListener click=new View.OnClickListener() {
         @Override
         public void onClick(View view) {
-            Intent intent=new Intent(VPlayer.this, MainActivity.class);
-            startActivity(intent);
+            if(getSharedPreferences(Constants.SHARED_PREFERENCES, Context.MODE_PRIVATE).getString(Constants.USER_NAME, Constants.USER_NAME).equals(Constants.COLLECTION_ADMIN)) {
+                Intent intent = new Intent(VPlayer.this, MainActivityForEmployee.class);
+                startActivity(intent);
+            }
+            else{
+                Intent intent = new Intent(VPlayer.this, MainActivity.class);
+                startActivity(intent);
+            }
 
         }
     };

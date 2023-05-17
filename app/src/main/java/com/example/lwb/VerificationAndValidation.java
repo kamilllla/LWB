@@ -42,7 +42,6 @@ public class VerificationAndValidation {
     public static boolean checkFIOIncorrect(String fio){
         String regex =  "^([a-zA-ZА-Яа-я]{2,})+$";
         fio=fio.trim();
-
         if(Pattern.matches(regex,fio))
             return false;
         else

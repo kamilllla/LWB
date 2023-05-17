@@ -221,47 +221,6 @@ public class EducationFragment extends Fragment {
 
 
 
-    //обращенияк БД
-    //метод для выгрузки сообщений из БД
-//    private void listenMessages(){
-//        db.collection(Constants.COLLECTION_LECTURES).
-//                addSnapshotListener(eventListener);
-//
-//    }
-    //слушатель для выгрузки данных из БД
-//    private final EventListener<QuerySnapshot> eventListener = (value, error) ->{
-//        if (error != null){
-//            return;
-//        }
-//        if (value != null) {
-//            int count = categories.size();
-//            for (DocumentChange documentChange : value.getDocumentChanges()) {
-//                if(documentChange.getType()==DocumentChange.Type.ADDED) {
-//                    Guid guid = new Guid();
-//                    guid.add(new Guid(document1.getId(), document1.getString("uri")));
-//                    message.setUserName(documentChange.getDocument().getString(Constants.CHAT_SENDER));
-//                    Log.d("CHATSENDER", documentChange.getDocument().getString(Constants.CHAT_SENDER));
-//                    message.setReceiverId(documentChange.getDocument().getString(Constants.CHAT_RECEIVER));
-//                    message.setTextMessage(documentChange.getDocument().getString(Constants.CHAT_MESSAGE));
-//                    message.setMessageTime(getReadableDateTime(documentChange.getDocument().getDate(Constants.CHAT_TIME)));
-//                    message.setMessageTimeDate(documentChange.getDocument().getDate(Constants.CHAT_TIME));
-//                    messages.add(message);
-//                }
-//
-//            }
-//            Collections.sort(messages, (obj1, obj2) -> obj1.getMessageTimeDate().compareTo(obj2.getMessageTimeDate()));
-//            if (count ==0){
-//                chatAdapter.notifyDataSetChanged();
-//            }else{
-//                chatAdapter.notifyItemRangeInserted(messages.size(), messages.size());
-//                recyclerView.smoothScrollToPosition(messages.size()-1);
-//            }
-//        }
-//        if (conversationId.equals("")){
-//            checkForConversation();
-//        }
-//
-//    };
 
 
 

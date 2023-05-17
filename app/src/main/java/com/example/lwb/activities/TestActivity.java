@@ -12,6 +12,7 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.lwb.Constants;
 import com.example.lwb.R;
 import com.example.lwb.Models.Test;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -29,11 +30,12 @@ public class TestActivity extends AppCompatActivity {
     int i=0;
     String category;
     String guid;
+    String maxPoints;
     int currentResult=0;
     Button buttonFirst;
     Button buttonSecond;
     Button buttonCancel;
-    Button repatButton;
+    Button repeatButton;
     SharedPreferences sharedPreferences;
 
     @Override
@@ -44,12 +46,13 @@ public class TestActivity extends AppCompatActivity {
         buttonFirst=findViewById(R.id.button);
         buttonSecond=findViewById(R.id.button2);
         buttonCancel=findViewById(R.id.buttonCancel);
-        repatButton=findViewById(R.id.buttonToRepeat);
+        repeatButton=findViewById(R.id.buttonToRepeat);
         TextView themeOfTest=findViewById(R.id.textViewHeader);
         category = getIntent().getStringExtra("category");
         guid = getIntent().getStringExtra("guid");
         sharedPreferences=getSharedPreferences("settings", MODE_PRIVATE);
-        sharedPreferences.edit().putInt(guid, currentResult).apply();
+        maxPoints=guid+"_"+sharedPreferences.getString(Constants.USER_NAME,Constants.USER_NAME);
+        sharedPreferences.edit().putInt(maxPoints, currentResult).apply();
         themeOfTest.setText(guid);
 
 
@@ -84,7 +87,7 @@ public class TestActivity extends AppCompatActivity {
         buttonFirst.setOnClickListener(onClickListener);
         buttonSecond.setOnClickListener(onClickListener);
         buttonCancel.setOnClickListener(onClickListener);
-        repatButton.setOnClickListener(onClickListener);
+        repeatButton.setOnClickListener(onClickListener);
 
 
 
@@ -107,26 +110,26 @@ public class TestActivity extends AppCompatActivity {
                                                                                                                                                                     }
                                                                                                                                                                     Log.i("I", Integer.toString(i));
                                                                                                                                                                     if(buttonFirst.getText().toString().toLowerCase().equals(tests.get(i).getRightAnswer().toLowerCase())){
-                                                                                                                                                                        currentResult=sharedPreferences.getInt(guid, 1000);
+                                                                                                                                                                        currentResult=sharedPreferences.getInt(maxPoints, 1000);
                                                                                                                                                                         Log.i("RES", Integer.toString(currentResult));
                                                                                                                                                                         currentResult++;
-                                                                                                                                                                        sharedPreferences.edit().putInt(guid, currentResult).apply();
+                                                                                                                                                                        sharedPreferences.edit().putInt(maxPoints, currentResult).apply();
                                                                                                                                                                     }
                                                                                                                                                                     i++;
                                                                                                                                                                     if (i<tests.size()) {
                                                                                                                                                                         viewQuestion.setText(tests.get(i).getQuestion());
                                                                                                                                                                     }
                                                                                                                                                                     else{
-                                                                                                                                                                        currentResult=sharedPreferences.getInt(guid, 1000);
-                                                                                                                                                                        int maxResult=sharedPreferences.getInt("max_"+guid, 0);
+                                                                                                                                                                        currentResult=sharedPreferences.getInt(maxPoints, 1000);
+                                                                                                                                                                        int maxResult=sharedPreferences.getInt("max_"+maxPoints, 0);
                                                                                                                                                                         if (maxResult<currentResult){
-                                                                                                                                                                            sharedPreferences.edit().putInt("max_"+guid, currentResult).apply();
+                                                                                                                                                                            sharedPreferences.edit().putInt("max_"+maxPoints, currentResult).apply();
                                                                                                                                                                         }
                                                                                                                                                                         buttonFirst.setEnabled(false);
                                                                                                                                                                         buttonSecond.setEnabled(false);
                                                                                                                                                                         buttonFirst.setVisibility(View.GONE);
                                                                                                                                                                         buttonSecond.setVisibility(View.GONE);
-                                                                                                                                                                        repatButton.setVisibility(View.VISIBLE);
+                                                                                                                                                                        repeatButton.setVisibility(View.VISIBLE);
                                                                                                                                                                         viewQuestion.setText("Ваш текущий результат - "+ currentResult+"\nВаш максимальный результат - "+ maxResult);
 
                                                                                                                                                                     }
@@ -153,29 +156,29 @@ public class TestActivity extends AppCompatActivity {
                                                                                                                                                                     }
                                                                                                                                                                     Log.i("I", Integer.toString(i));
                                                                                                                                                                     if(buttonSecond.getText().toString().toLowerCase().equals(tests.get(i).getRightAnswer().toLowerCase())){
-                                                                                                                                                                        currentResult=sharedPreferences.getInt(guid, 1000);
+                                                                                                                                                                        currentResult=sharedPreferences.getInt(maxPoints, 1000);
                                                                                                                                                                         Log.i("RES", Integer.toString(currentResult));
                                                                                                                                                                         currentResult++;
-                                                                                                                                                                        sharedPreferences.edit().putInt(guid, currentResult).apply();
+                                                                                                                                                                        sharedPreferences.edit().putInt(maxPoints, currentResult).apply();
                                                                                                                                                                     }
                                                                                                                                                                     i++;
                                                                                                                                                                     if (i<tests.size()) {
                                                                                                                                                                         viewQuestion.setText(tests.get(i).getQuestion());
                                                                                                                                                                     }
                                                                                                                                                                     else{
-                                                                                                                                                                        currentResult=sharedPreferences.getInt(guid, 1000);
-                                                                                                                                                                        int maxResult=sharedPreferences.getInt("max_"+guid, 0);
+                                                                                                                                                                        currentResult=sharedPreferences.getInt(maxPoints, 1000);
+                                                                                                                                                                        int maxResult=sharedPreferences.getInt("max_"+maxPoints, 0);
 
                                                                                                                                                                         if (maxResult<currentResult){
 
-                                                                                                                                                                            sharedPreferences.edit().putInt("max_"+guid, currentResult).apply();
+                                                                                                                                                                            sharedPreferences.edit().putInt("max_"+maxPoints, currentResult).apply();
                                                                                                                                                                         }
                                                                                                                                                                         Log.i("RES", "hfjfgjhgjhg");
                                                                                                                                                                         buttonFirst.setEnabled(false);
                                                                                                                                                                         buttonSecond.setEnabled(false);
                                                                                                                                                                         buttonFirst.setVisibility(View.GONE);
                                                                                                                                                                         buttonSecond.setVisibility(View.GONE);
-                                                                                                                                                                        repatButton.setVisibility(View.VISIBLE);
+                                                                                                                                                                        repeatButton.setVisibility(View.VISIBLE);
                                                                                                                                                                         viewQuestion.setText("Ваш текущий результат - "+ currentResult+"\nВаш максимальный результат - "+ maxResult);
 
 

@@ -136,14 +136,8 @@ public class UsersListFragment extends Fragment {
             else {
                 recyclerView.setVisibility(View.GONE);
                 textAlert.setVisibility(View.VISIBLE);
-
             }
-
-
-
         }
-
-
     };
 
 }

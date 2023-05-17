@@ -119,32 +119,6 @@ public class AccountFragment extends Fragment {
 
     }
 
-//    private View.OnFocusChangeListener focusChangeListener=new View.OnFocusChangeListener() {
-//        @Override
-//        public void onFocusChange(View view, boolean b) {
-//            if (view.getId()==R.id.inputPassword){
-//                Log.e("TAG", "view.getId()==R.id.inputPassword");
-//
-//                if (b){
-//                    Log.e("TAG", "----b");
-//                    if (String.valueOf(passwordText.getText()).equals("******")) {
-//                        passwordText.setText("");
-//                        Log.e("TAG", "-----set text-- "+ passwordText.getText());
-//                    }
-//                    Log.e("TAG", "-----get text-- "+ passwordText.getText());
-//                }
-//            }
-//        }
-//    };
-//
-//
-
-
-
-
-
-
-
     //выгрузка личных данных из БД- параметр - логин текущего пользоввателя
     private void loadData(String login){
         db.collection(Constants.COLLECTION_USERS).document(login).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
@@ -181,31 +155,18 @@ public class AccountFragment extends Fragment {
         });
     }
 
+    //функция приведения инттерфеса к изначальному виду, то есть для просмотра
+    private void bringingInterfaceToOriginal(){
+        passwordText.setText("******");
+        numberText.setFocusable(false);
+        passwordText.setFocusable(false);
+        numberLayout.setEndIconVisible(false);
+        passwordLayout.setEndIconVisible(false);
+         buttonChangeData.setVisibility(View.VISIBLE);
+        saveChange.setVisibility(View.GONE);
+        buttonCancelChange.setVisibility(View.GONE);
 
-
-
-//            switch (view.getId()) {
-//                case R.id.inputPassword:
-//                    if (b) {
-//                        if (String.valueOf(passwordText.getText()).equals("******")) {
-//                            passwordText.setText("");
-//                        }
-//                    } else {
-//                        passwordText.setText("******");
-//
-//                    }
-//                    break;
-//                case R.id.inputNumber:
-//                    if (b) {
-//                        Log.e("IN", "if(b)");
-//                        numberText.setCursorVisible(true);
-//                    } else {
-//                        Log.e("IN", "else)");
-//                        numberText.setCursorVisible(false);
-//                    }
-//                    break;
-//            }
-
+    }
 
 
 
@@ -249,6 +210,9 @@ public class AccountFragment extends Fragment {
                                     return 1;
                                 }
                             });
+                            bringingInterfaceToOriginal();
+                            return;
+
                         }
                         if (pswrd.isEmpty() == false && number.isEmpty() == false) {
                             StringBuilder hash= VerificationAndValidation.getPassword(pswrd);
@@ -261,59 +225,28 @@ public class AccountFragment extends Fragment {
                                     return 1;
                                 }
                             });
-                            passwordText.setText("******");
-                            loadNumber(login);
-                            numberText.setFocusable(false);
-                            passwordText.setFocusable(false);
-                            Log.e("cancel change data ", String.valueOf(numberText.hasFocusable()));
-                            buttonChangeData.setVisibility(View.VISIBLE);
-                            saveChange.setVisibility(View.GONE);
-                            buttonCancelChange.setVisibility(View.GONE);
-                            return;
+                           bringingInterfaceToOriginal();
+                           return;
 
                         } else {
                             Toast.makeText(getContext(), "Данные не изменены", Toast.LENGTH_LONG).show();
-                            passwordText.setText("******");
-                            loadNumber(login);
-                            numberText.setFocusable(false);
-                            passwordText.setFocusable(false);
-                            Log.e("cancel change data ", String.valueOf(numberText.hasFocusable()));
-                            buttonChangeData.setVisibility(View.VISIBLE);
-                            saveChange.setVisibility(View.GONE);
-                            buttonCancelChange.setVisibility(View.GONE);
+                            bringingInterfaceToOriginal();
                             return;
                         }
                     }
                     catch (Exception e){
-                        passwordText.setText("******");
-                                            loadNumber(login);
-                                            numberText.setFocusable(false);
-                                            passwordText.setFocusable(false);
-                                            buttonChangeData.setVisibility(View.VISIBLE);
-                                            saveChange.setVisibility(View.GONE);
-                                            buttonCancelChange.setVisibility(View.GONE);
-                                            Toast.makeText(getContext(), "Произошла ошибка изменения данных", Toast.LENGTH_LONG).show();
-                                            return;
-
-
-
+                       bringingInterfaceToOriginal();
+                        Toast.makeText(getContext(), "Произошла ошибка изменения данных", Toast.LENGTH_LONG).show();
+                        return;
                     }
+
                 case R.id.buttonToBookList:
                     checkBookingExist();
                     break;
                 case R.id.cancelChange:
-                    Log.e("cancel ", "click ");
-                    passwordText.setText("******");
                     loadNumber(login);
-                    numberText.setFocusable(false);
-                    passwordText.setFocusable(false);
-                    Log.e("cancel change data ", String.valueOf(numberText.hasFocusable()));
+                    bringingInterfaceToOriginal();
 
-                    buttonChangeData.setVisibility(View.VISIBLE);
-                    saveChange.setVisibility(View.GONE);
-                    buttonCancelChange.setVisibility(View.GONE);
-//                    numberText.setEnabled(false);
-//                    passwordText.setEnabled(false);
                     break;
                 case R.id.changeData:
                     passwordText.setFocusableInTouchMode(true);
@@ -321,7 +254,10 @@ public class AccountFragment extends Fragment {
                     numberText.setFocusable(true);
                     numberText.setFocusableInTouchMode(true);
                     numberText.requestFocus();
-
+                    passwordLayout.setEndIconDrawable(R.drawable.ic_baseline_edit_24);
+                    numberLayout.setEndIconDrawable(R.drawable.ic_baseline_edit_24);
+                    numberLayout.setEndIconVisible(true);
+                    passwordLayout.setEndIconVisible(true);
                     buttonChangeData.setVisibility(View.GONE);
                     saveChange.setVisibility(View.VISIBLE);
                     buttonCancelChange.setVisibility(View.VISIBLE);
@@ -332,82 +268,6 @@ public class AccountFragment extends Fragment {
             }
         }
     };
-
-    //                    if (!number.isEmpty() || !pswrd.isEmpty()) {
-//                        final DocumentReference sfDocRef = ;
-//                        db.runTransaction(new Transaction.Function<Void>() {
-//                            @Override
-//                            public Void apply(Transaction transaction) throws FirebaseFirestoreException {
-//                                try {
-//                                    if(number.isEmpty()==true || VerificationAndValidation.checkNumberIncorrect(number)==true){
-//                                        Log.e("TAG", "IF  !number.isEmpty() && !VerificationAndValidation.checkNumberIncorrect(number)");
-//                                        numberLayout.setError("Формат телефона должен быть:+7/8(9xx) xxx-xx-xx(знаки (,),-могут быть опущены)");
-//                                        return null;
-//                                        }
-//                                    else{
-//                                        transaction.update(sfDocRef, "number", number);
-//                                        Log.e("TAG", " ELSE !number.isEmpty() && !VerificationAndValidation.checkNumberIncorrect(number)");
-//                                    }
-//                                    if (pswrd.equals("******") || pswrd.isEmpty() ) {
-//                                        passwordText.setText("******");
-//                                        Log.e("TAG", "pswrd.equals(\"******\") || pswrd.isEmpty() ");
-//                                        return null;
-//
-//                                    }
-//                                    else {
-//                                        Log.e("TAG", "ELSE  pswrd.equals(\"******\") || pswrd.isEmpty() ");
-//                                        StringBuilder hash = VerificationAndValidation.getPassword(pswrd);
-//                                        transaction.update(sfDocRef, "password", String.valueOf(hash));
-//                                        }
-//                                    return null;
-//
-//                                }
-//                                catch (Exception e){
-//                                    passwordText.setText("******");
-//                                    loadNumber(login);
-//                                    Toast.makeText(getContext(), "Произошла ошибка изменения данных", Toast.LENGTH_LONG).show();
-//                                    return null;
-//                                }
-//                            }
-//                        })
-//                                .addOnSuccessListener(new OnSuccessListener<Void>() {
-//                            @Override
-//                            public void onSuccess(Void result) {
-//                                passwordText.setText("******");
-//                                numberText.setFocusable(false);
-//                                passwordText.setFocusable(false);
-//                                buttonChangeData.setVisibility(View.VISIBLE);
-//                                saveChange.setVisibility(View.GONE);
-//                                buttonCancelChange.setVisibility(View.GONE);
-//                                Log.d("TAG", "Transaction success: ");
-//                            }
-//                        })
-//                        .addOnFailureListener(new OnFailureListener() {
-//                                    @Override
-//                                    public void onFailure(@NonNull Exception e) {
-//                                        try {
-//                                            //passwordText.setText("******");
-//                                            loadNumber(login);
-//                                            numberText.setFocusable(false);
-//                                            passwordText.setFocusable(false);
-//                                            buttonChangeData.setVisibility(View.VISIBLE);
-//                                            saveChange.setVisibility(View.GONE);
-//                                            buttonCancelChange.setVisibility(View.GONE);
-//                                            Log.w("TAG", "Transaction failure.", e);
-//                                        }
-//                                        catch (Exception exception){
-//                                            //passwordText.setText("******");
-//                                            loadNumber(login);
-//                                            numberText.setFocusable(false);
-//                                            passwordText.setFocusable(false);
-//                                            buttonChangeData.setVisibility(View.VISIBLE);
-//                                            saveChange.setVisibility(View.GONE);
-//                                            buttonCancelChange.setVisibility(View.GONE);
-//                                            Toast.makeText(getContext(), "Произошла ошибка изменения данных", Toast.LENGTH_LONG).show();
-//
-//                                        }
-//                                    }
-//                                });
 
 
 
@@ -453,58 +313,12 @@ private void checkBookingExist(){
                 }
             });
 }
-
-
-
-//    private void getToken(){
-//        FirebaseMessaging.getInstance().getToken().addOnSuccessListener(this::updateToken);
-//    }
-//
-//    private void updateToken(String token){
-//        db.collection(Constants.COLLECTION_USERS).document(getContext().getSharedPreferences(Constants.SHARED_PREFERENCES, Context.MODE_PRIVATE).getString(Constants.USER_NAME, Constants.USER_NAME)).update(Constants.USER_TOKEN, token).addOnSuccessListener(
-//                new OnSuccessListener<Void>() {
-//                    @Override
-//                    public void onSuccess(Void unused) {
-//                        Log.i("TOKEN", "SUCCESS");
-//
-//                    }
-//                }
-//        ).addOnFailureListener(
-//                new OnFailureListener() {
-//                    @Override
-//                    public void onFailure(@NonNull Exception e) {
-//                        Log.i("TOKEN", "FAILURE");
-//
-//                    }
-//                });
-//    }
-//
-//
+//функция выхода из аккаунта
     private void signOut() {
         Intent intent = new Intent(getActivity(), EnterActivity.class);
-        getContext().getSharedPreferences(Constants.SHARED_PREFERENCES, Context.MODE_PRIVATE).edit().clear().apply();
+        //getContext().getSharedPreferences(Constants.SHARED_PREFERENCES, Context.MODE_PRIVATE).edit().clear().apply();
         startActivity(intent);
     }
-
-//        FirebaseFirestore firebaseFirestore = FirebaseFirestore.getInstance();
-//        HashMap<String, Object> updates = new HashMap<>();
-//        updates.put(Constants.USER_TOKEN, FieldValue.delete());
-//        firebaseFirestore.collection(Constants.COLLECTION_USERS)
-//        .document(getContext().getSharedPreferences(Constants.SHARED_PREFERENCES, Context.MODE_PRIVATE).getString(Constants.USER_NAME, Constants.USER_NAME))
-//        .update(updates).addOnSuccessListener(
-//        new OnSuccessListener<Void>() {
-//            @Override
-//            public void onSuccess(Void unused) {
-//                getContext().getSharedPreferences("settings", Context.MODE_PRIVATE).edit().clear().apply();
-//            }
-//        }).
-//        addOnFailureListener(new OnFailureListener() {
-//            @Override
-//            public void onFailure(@NonNull Exception e) {
-//                Toast.makeText(getContext(), "Ошибка выхода из аккаунта", Toast.LENGTH_LONG).show();
-//            }
-//        });
-//    }
 
 
 

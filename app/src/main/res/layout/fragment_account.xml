@@ -120,7 +120,6 @@
                 android:layout_width="325dp"
                 android:layout_height="wrap_content"
                 app:hintTextColor="@color/black"
-                android:focusable="false"
                 android:hint="@string/phone"
 
                 >
@@ -129,7 +128,7 @@
                     android:id="@+id/inputNumber"
                     style="@style/EditText"
                     android:inputType="phone"
-                    android:drawableEnd="@drawable/ic_baseline_edit_24"
+                    android:focusable="false"
                     android:drawableTint="@color/greyLight"
                     />
             </com.google.android.material.textfield.TextInputLayout>
@@ -150,10 +149,10 @@
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/inputPasswordPersonalData"
                     style="@style/EditText"
-                    android:drawableEnd="@drawable/ic_baseline_edit_24"
                     android:drawableTint="@color/greyLight"
                     android:layout_height="58dp"
                     android:padding="5dp"
+                    android:focusable="false"
                     android:text="******"/>
             </com.google.android.material.textfield.TextInputLayout>
 

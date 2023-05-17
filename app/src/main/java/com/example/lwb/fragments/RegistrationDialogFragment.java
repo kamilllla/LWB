@@ -202,12 +202,11 @@ public class RegistrationDialogFragment extends DialogFragment {
         number = numberEditText.getText().toString().replaceAll("\\s+", "");
         count = numberPicker.getValue();
         email = mailEditText.getText().toString();
-        if (name.isEmpty() || surname.isEmpty() || patronomyc.isEmpty() || number.isEmpty() || email.isEmpty()) {
+        if (name.isEmpty() || surname.isEmpty() || number.isEmpty() || email.isEmpty()) {
 
-            if (name.isEmpty() && surname.isEmpty() && patronomyc.isEmpty() && number.isEmpty() && email.isEmpty()) {
+            if (name.isEmpty() && surname.isEmpty()  && number.isEmpty() && email.isEmpty()) {
                 nameInputLayout.setError("Введите имя");
                 surnameInputLayout.setError("Введите фамилию");
-                patronomycInputLayout.setError("Введите отчество");
                 mailInputLayout.setError("Введите электронную почту");
                 numberInputLayout.setError("Введите номер телефона");
                 return false;
@@ -217,8 +216,6 @@ public class RegistrationDialogFragment extends DialogFragment {
                     nameInputLayout.setError("Введите имя");
                 if (surname.isEmpty())
                     surnameInputLayout.setError("Введите фамилию");
-                if (patronomyc.isEmpty())
-                    patronomycInputLayout.setError("Введите отчество");
                 if (number.isEmpty())
                     numberInputLayout.setError("Введите номер телефона");
                 if (email.isEmpty())
@@ -244,7 +241,7 @@ public class RegistrationDialogFragment extends DialogFragment {
                 surnameInputLayout.setError("Фамилия может содержать либо латинские буквы, либо кириллицу, без пробелов");
                 return false;
             }
-            if (VerificationAndValidation.checkFIOIncorrect(patronomyc)){
+            if (patronomyc.isEmpty()==false && VerificationAndValidation.checkFIOIncorrect(patronomyc)){
                 patronomycInputLayout.setError("Отчество может содержать либо латинские буквы, либо кириллицу, без пробелов");
                 return false;
             }
